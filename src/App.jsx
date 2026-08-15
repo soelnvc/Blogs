@@ -12,7 +12,7 @@ const ScrollWrapper = ({ children }) => {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8,
+      duration: 1.6,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
@@ -23,6 +23,8 @@ const ScrollWrapper = ({ children }) => {
       infinite: false,
     });
 
+    window.__lenis = lenis;
+
     let rafId;
 
     function raf(time) {
@@ -32,14 +34,23 @@ const ScrollWrapper = ({ children }) => {
 
     rafId = requestAnimationFrame(raf);
 
-    // Scroll to top on route change
-    lenis.scrollTo(0, { immediate: true });
+    if (location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        if (el) {
+          lenis.scrollTo(el, { offset: -80, duration: 1.5 });
+        }
+      }, 100);
+    } else {
+      lenis.scrollTo(0, { immediate: true });
+    }
 
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      window.__lenis = null;
     };
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return <>{children}</>;
 };
@@ -54,6 +65,7 @@ function App() {
           <Route path="/articles" element={<Blogs />} />
           <Route path="/topics" element={<Blogs />} />
           <Route path="/about" element={<Blogs />} />
+          <Route path="/search" element={<Blogs />} />
         </Routes>
       </ScrollWrapper>
     </Router>

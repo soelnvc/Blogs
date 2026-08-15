@@ -62,7 +62,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       {/* 01 - Hero */}
-      <section className={styles.hero} ref={heroScrollRef}>
+      <section className={styles.hero} id="hero" ref={heroScrollRef}>
         <motion.div 
           className={styles.heroLeft}
           variants={staggerContainer}
@@ -165,7 +165,7 @@ const Home = () => {
       </section>
 
       {/* 03 - Latest Articles */}
-      <section className={styles.latest}>
+      <section className={styles.latest} id="articles">
         <motion.div 
           className={styles.latestHeader}
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
@@ -205,7 +205,7 @@ const Home = () => {
       </section>
 
       {/* 04 - Topics */}
-      <section className={styles.topics}>
+      <section className={styles.topics} id="topics">
         <motion.div 
           className={styles.latestHeader} style={{ marginBottom: '3rem' }}
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
@@ -243,7 +243,7 @@ const Home = () => {
       </section>
 
       {/* 05 - Personal Statement */}
-      <section className={styles.statement}>
+      <section className={styles.statement} id="about">
         <motion.div 
           className={styles.statementLeft}
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}

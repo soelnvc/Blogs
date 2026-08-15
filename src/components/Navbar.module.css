@@ -8,10 +8,10 @@
   width: 100%;
   z-index: 100;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: 0.8125rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   background: rgba(245, 245, 243, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -52,6 +52,7 @@
   height: 22px;
   position: relative;
   transition: color 0.4s ease;
+  text-decoration: none;
 }
 
 .search:hover {
