@@ -15,14 +15,14 @@
   --color-bg: #F40E3F;
   --color-highlight: #F5F5F3;
   --color-text: #111111;
-  --color-border: rgba(17, 17, 17, 0.2);
+  --color-border: rgba(17, 17, 17, 0.85); /* Solid dark black lines in Red mode */
 }
 
 [data-theme="dark"] {
   --color-bg: #111111;
   --color-text: #F5F5F3;
   --color-highlight: #F40E3F;
-  --color-border: rgba(245, 245, 243, 0.15);
+  --color-border: rgba(245, 245, 243, 0.25); /* Crisp, visible lines in Dark mode */
 }
 
 * {

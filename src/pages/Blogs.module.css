@@ -16,13 +16,15 @@
   background-color: var(--color-bg);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
   padding-bottom: 6rem;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .heroSectionWrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 01 - Header */
@@ -47,6 +49,7 @@
   overflow: hidden;
   background: var(--color-border);
   filter: grayscale(100%) contrast(110%) brightness(95%);
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .journalHeaderRight canvas,
@@ -94,8 +97,9 @@
 .divider {
   width: 100%;
   height: 1px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: var(--color-border);
   margin-bottom: 4rem;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 03 - Timeline */
@@ -140,12 +144,14 @@
 .monthDash {
   flex: 1;
   height: 1px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: var(--color-border);
   margin-right: 0;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .rightCol {
-  border-left: 1px solid rgba(0,0,0,0.1);
+  border-left: 1px solid var(--color-border);
+  transition: border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Articles */
@@ -159,13 +165,13 @@
   grid-template-columns: 60px 1fr 200px 30px;
   gap: 2rem;
   padding: 2.5rem 2rem 2.5rem 2.5rem;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid var(--color-border);
   align-items: flex-start;
   cursor: pointer;
   border-radius: 4px;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition: background-color 0.4s ease, border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .articleRow::before {
@@ -205,11 +211,13 @@
 }
 
 .articleRow:hover .articleSubtitle {
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: var(--color-bg) !important;
+  opacity: 0.85 !important;
 }
 
 .articleRow:hover .articleCategory {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: var(--color-bg) !important;
+  opacity: 0.75 !important;
 }
 
 .articleRow:hover .articleArrow {
@@ -306,8 +314,9 @@
 
 .collapsibleYearLine {
   height: 1px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: var(--color-border);
   width: 100%;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .collapsibleYearRight {
@@ -359,7 +368,7 @@
 
   .rightCol {
     border-left: none;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid var(--color-border);
     padding-left: 0;
   }
   
