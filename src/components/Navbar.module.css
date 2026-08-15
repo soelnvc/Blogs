@@ -1,0 +1,136 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 4rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(245, 245, 243, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.logo {
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  text-decoration: none;
+  color: var(--color-text);
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo:hover {
+  transform: scale(1.08);
+}
+
+.links {
+  display: flex;
+  gap: 4rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--color-text);
+  perspective: 400px;
+  display: inline-flex;
+  height: 22px;
+}
+
+.search {
+  cursor: pointer;
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  position: relative;
+  transition: color 0.4s ease;
+}
+
+.search:hover {
+  color: var(--color-highlight);
+}
+
+.searchTextWrapper {
+  position: absolute;
+  right: 100%;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  perspective: 400px;
+  pointer-events: none;
+}
+
+.searchCharWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.searchChar {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.5s ease;
+}
+
+.search:hover .searchChar {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+.searchIcon {
+  transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search:hover .searchIcon {
+  color: var(--color-highlight);
+  transform: scale(1.1);
+}
+
+.charWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.char {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  transform-origin: center bottom;
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.5s ease;
+}
+
+.charClone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  color: var(--color-highlight);
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.5s ease;
+}
+
+.navLink:hover .char {
+  transform: rotateX(90deg);
+  opacity: 0;
+}
+
+.navLink:hover .charClone {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
