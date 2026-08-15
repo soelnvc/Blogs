@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
 import WavesBackground from '../components/WavesBackground';
+import Footer from '../components/Footer';
 
 const archiveData = [
   {
@@ -224,9 +225,10 @@ const Blogs = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <WavesBackground strokeColor="rgba(0, 0, 0, 0.08)" spacing={8}>
-        <div className={styles.heroSectionWrapper}>
-          <div className={styles.container} style={{ paddingBottom: '0', minHeight: 'auto' }}>
+      <main className={styles.mainContent}>
+        <WavesBackground strokeColor="rgba(0, 0, 0, 0.08)" spacing={8}>
+          <div className={styles.heroSectionWrapper}>
+            <div className={styles.container} style={{ paddingBottom: '0', minHeight: 'auto' }}>
             {/* 01 - Header Section */}
             <header className={styles.journalHeader}>
               <div className={styles.journalHeaderLeft}>
@@ -309,50 +311,12 @@ const Blogs = () => {
             return <CollapsibleYear key={yearData.year} yearData={yearData} />;
           }
         })}
-      </div>
-
-      {/* 04 - Footer */}
-      <footer className={styles.footerSection}>
-        <div className={styles.footerImageWrapper}>
-          <img 
-            src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" 
-            alt="Stairs" 
-            className={styles.footerImage} 
-          />
         </div>
-        
-        <div className={styles.footerQuoteBlock}>
-          <div className={styles.footerQuoteLine}></div>
-          <p className="text-mono" style={{ textTransform: 'none', lineHeight: '2', marginBottom: '2rem' }}>
-            I don't write to be right.<br/>
-            I write to understand.
-          </p>
-          <span className="text-mono" style={{ fontSize: '0.75rem', letterSpacing: '0.1em' }}>— SIDDHESH GOEL</span>
-        </div>
-
-        <div className={styles.footerLinksBlock}>
-          <div className={styles.footerLinkCol}>
-            <span className="text-mono" style={{fontWeight: 'bold', marginBottom: '1.5rem', fontSize: '0.75rem'}}>NAVIGATION</span>
-            <Link to="/" className="text-mono">Home</Link>
-            <Link to="/articles" className="text-mono">Articles</Link>
-            <Link to="/topics" className="text-mono">Topics</Link>
-            <Link to="/about" className="text-mono">About</Link>
-          </div>
-          
-          <div className={styles.footerLinkCol}>
-            <span className="text-mono" style={{fontWeight: 'bold', marginBottom: '1.5rem', fontSize: '0.75rem'}}>ELSEWHERE</span>
-            <a href="#" className="text-mono">GitHub</a>
-            <a href="#" className="text-mono">LinkedIn</a>
-            <a href="#" className="text-mono">X</a>
-            <a href="#" className="text-mono">Instagram</a>
-          </div>
-
-          <div className={styles.footerCopyright}>
-            <span className="text-mono" style={{fontSize: '0.75rem', lineHeight: '2'}}>© 2026 Siddhesh Goel.<br/>All rights reserved.</span>
-          </div>
-          </div>
-        </footer>
       </div>
+      </main>
+
+      {/* Global Shared Footer */}
+      <Footer />
     </div>
   );
 };

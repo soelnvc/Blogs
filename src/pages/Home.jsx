@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import InteractiveParticleText from '../components/InteractiveParticleText';
 import LiquidHover from '../components/LiquidHover';
+import Footer from '../components/Footer';
 import styles from './Home.module.css';
 
 const fadeUpVariant = {
@@ -297,43 +298,7 @@ const Home = () => {
       </main>
 
       {/* 08 - Footer */}
-      <div className={styles.footerRevealWrapper}>
-        <motion.footer 
-          className={styles.footerSticky}
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-        >
-        <motion.div className={styles.footerLogo} variants={fadeUpVariant}>
-          <span className="heading-condensed" style={{ fontSize: '2rem', letterSpacing: '0.05em' }}>
-            S<span style={{ color: 'var(--color-highlight)' }}>·</span>G
-          </span>
-        </motion.div>
-        <motion.div className={styles.footerCol} variants={fadeUpVariant}>
-          <h5 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '1.5rem' }}>NAVIGATION</h5>
-          <Link to="/">Home</Link>
-          <Link to="/articles">Articles</Link>
-          <Link to="/topics">Topics</Link>
-          <Link to="/about">About</Link>
-        </motion.div>
-        <motion.div className={styles.footerCol} variants={fadeUpVariant}>
-          <h5 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '1.5rem' }}>RESOURCES</h5>
-          <Link to="/articles">All Articles</Link>
-          <Link to="/topics">Topics</Link>
-          <Link to="/search">Search</Link>
-        </motion.div>
-        <motion.div className={styles.footerCol} variants={fadeUpVariant}>
-          <h5 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '1.5rem' }}>ELSEWHERE</h5>
-          <a href="#">GitHub</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">X</a>
-          <a href="#">Instagram</a>
-        </motion.div>
-        <motion.div className={styles.footerCopyright} variants={fadeUpVariant}>
-          <p className="text-mono" style={{ fontSize: '0.75rem', opacity: 0.6 }}>
-            &copy; 2026 Siddhesh Goel.<br />All rights reserved.
-          </p>
-        </motion.div>
-      </motion.footer>
-      </div>
+      <Footer />
     </div>
   );
 };
