@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import styles from './Navbar.module.css';
+import { useTheme } from '../context/ThemeContext';
 
 const WaveText = ({ text }) => {
   return (
@@ -42,6 +43,7 @@ const RollingLink = ({ to, text, onClick }) => (
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const handleNavClick = (e, targetHash) => {
     if (location.pathname === '/') {
@@ -82,12 +84,38 @@ const Navbar = () => {
         <RollingLink to="/#about" text="About" onClick={(e) => handleNavClick(e, '#about')} />
       </div>
 
-      <Link to="/articles" className={styles.search}>
-        <div className={styles.searchTextWrapper}>
-          <SearchWaveText text="Search" />
+      <div className={styles.rightGroup}>
+        <div className={styles.themeToggle}>
+          <button 
+            className={`${styles.themeBtn} ${theme === 'light' ? styles.activeLight : ''}`} 
+            onClick={() => toggleTheme('light')}
+            aria-label="Light Mode"
+          >
+            <div className={styles.themeDotLight}></div>
+          </button>
+          <button 
+            className={`${styles.themeBtn} ${theme === 'red' ? styles.activeRed : ''}`} 
+            onClick={() => toggleTheme('red')}
+            aria-label="Red Mode"
+          >
+            <div className={styles.themeDotRed}></div>
+          </button>
+          <button 
+            className={`${styles.themeBtn} ${theme === 'dark' ? styles.activeDark : ''}`} 
+            onClick={() => toggleTheme('dark')}
+            aria-label="Dark Mode"
+          >
+            <div className={styles.themeDotDark}></div>
+          </button>
         </div>
-        <Search size={16} className={styles.searchIcon} />
-      </Link>
+
+        <Link to="/articles" className={styles.search}>
+          <div className={styles.searchTextWrapper}>
+            <SearchWaveText text="Search" />
+          </div>
+          <Search size={16} className={styles.searchIcon} />
+        </Link>
+      </div>
     </nav>
   );
 };

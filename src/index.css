@@ -11,6 +11,20 @@
   --font-mono: 'Space Mono', monospace;
 }
 
+[data-theme="red"] {
+  --color-bg: #E53935;
+  --color-highlight: #F5F5F3;
+  --color-text: #111111;
+  --color-border: rgba(17, 17, 17, 0.2);
+}
+
+[data-theme="dark"] {
+  --color-bg: #111111;
+  --color-text: #F5F5F3;
+  --color-highlight: #E53935;
+  --color-border: rgba(245, 245, 243, 0.15);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +38,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Typography utilities */
