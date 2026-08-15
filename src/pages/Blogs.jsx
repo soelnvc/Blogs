@@ -5,6 +5,20 @@ import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
 import WavesBackground from '../components/WavesBackground';
 import Footer from '../components/Footer';
+import LiquidHover from '../components/LiquidHover';
+
+const fadeUpVariant = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
 
 const archiveData = [
   {
@@ -258,11 +272,14 @@ const Blogs = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <img 
-            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80" 
-            alt="Architecture" 
-            className={styles.headerImage} 
-          />
+          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <LiquidHover 
+              image="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80" 
+              cursorSize={0.6} 
+              cursorPower={0.5} 
+              distortionPower={0.5} 
+            />
+          </div>
         </motion.div>
       </header>
         </div>
@@ -271,9 +288,12 @@ const Blogs = () => {
 
       <div className={styles.container} style={{ paddingTop: '2rem', paddingBottom: '0', minHeight: 'auto' }}>
         {/* 02 - Filters */}
-        <div className={styles.filtersWrapper}>
+        <motion.div 
+          className={styles.filtersWrapper}
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
+        >
           {filters.map((f) => (
-          <div key={f} className={styles.filterItem}>
+          <motion.div key={f} className={styles.filterItem} variants={fadeUpVariant}>
             <button 
               className={`${styles.filterBtn} text-mono ${activeFilter === f ? styles.filterBtnActive : ''}`}
               onClick={() => setActiveFilter(f)}
@@ -283,15 +303,18 @@ const Blogs = () => {
             {activeFilter === f && (
               <motion.div layoutId="activeFilter" className={styles.filterActiveBar}></motion.div>
             )}
-          </div>
+          </motion.div>
         ))}
-        </div>
+        </motion.div>
         <div className={styles.divider}></div>
       </div>
       
       <div className={styles.container} style={{ paddingTop: '2rem' }}>
         {/* 03 - Timeline */}
-      <div className={styles.timelineContainer}>
+      <motion.div 
+        className={styles.timelineContainer}
+        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
+      >
         {archiveData.map((yearData) => {
           if (yearData.isExpandedDefault) {
             return (
@@ -311,7 +334,7 @@ const Blogs = () => {
             return <CollapsibleYear key={yearData.year} yearData={yearData} />;
           }
         })}
-        </div>
+      </motion.div>
       </div>
       </main>
 
