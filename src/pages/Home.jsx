@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import InteractiveParticleText from '../components/InteractiveParticleText';
+import LiquidHover from '../components/LiquidHover';
 import styles from './Home.module.css';
 
 const fadeUpVariant = {
@@ -28,11 +29,9 @@ const ImageParallax = ({ src, alt, speed = 0.2, className }) => {
 
   return (
     <div ref={ref} style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }} className={className}>
-      <motion.img 
-        src={src} 
-        alt={alt} 
-        style={{ y, width: '100%', height: '120%', objectFit: 'cover', display: 'block', top: '-10%', position: 'absolute' }} 
-      />
+      <motion.div style={{ y, width: '115%', height: '130%', top: '-15%', left: '-7.5%', position: 'absolute' }}>
+        <LiquidHover image={src} cursorSize={0.6} cursorPower={0.5} distortionPower={0.5} />
+      </motion.div>
     </div>
   );
 };
@@ -76,7 +75,7 @@ const Home = () => {
             style={{ width: '100%', height: 'auto', cursor: 'crosshair', zIndex: 10, position: 'relative' }}
           >
             <InteractiveParticleText 
-              text={["THOUGHTS,", "IDEAS,", "AND THINGS", "I'VE FIGURED OUT."]}
+              text={["THOUGHTS,", "IDEAS,", "AND THINGS", "I'VE FIGURED", "OUT."]}
               fontFamily='"Oswald", sans-serif'
               fontWeight="700"
               textColor="#111111"
@@ -115,11 +114,14 @@ const Home = () => {
           </motion.div>
         </motion.div>
         <div className={styles.heroRight}>
-          <motion.img 
-            src="https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1200&q=80" 
-            alt="Dramatic mountain landscape" 
-            style={{ y: heroImageY, height: '120%', width: '100%', objectFit: 'cover', top: '-10%', position: 'absolute' }}
-          />
+          <motion.div style={{ y: heroImageY, height: '130%', width: '120%', top: '-15%', left: '-10%', position: 'absolute' }}>
+            <LiquidHover 
+               image="https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1200&q=80"
+               cursorSize={0.6}
+               cursorPower={0.5}
+               distortionPower={0.5}
+            />
+          </motion.div>
           <motion.div 
             className={styles.heroImageCaption}
             initial={{ opacity: 0, x: 20 }}

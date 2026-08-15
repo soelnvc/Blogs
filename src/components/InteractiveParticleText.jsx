@@ -32,10 +32,9 @@ const InteractiveParticleText = ({
   }, []);
 
   const getDynamicFontSize = (width) => {
-    // Mirrors clamp(4rem, 8vw, 10rem)
-    let size = width * 0.08;
-    if (size < 64) size = 64;
-    if (size > 160) size = 160;
+    let size = width * 0.065;
+    if (size < 48) size = 48;
+    if (size > 115) size = 115;
     return size;
   };
   

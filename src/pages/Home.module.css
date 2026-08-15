@@ -32,6 +32,8 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
+  background-color: var(--color-bg);
+  z-index: 2;
 }
 
 .heroDescriptionBox {
@@ -124,7 +126,7 @@
   background-color: #0d0d0d;
 }
 
-.heroRight img {
+.heroRight img, .heroRight canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -136,6 +138,10 @@
 .heroRight:hover img {
   filter: grayscale(100%) contrast(135%) brightness(95%);
   transform: scale(1.02);
+}
+
+.heroRight:hover canvas {
+  filter: grayscale(100%) contrast(135%) brightness(95%);
 }
 
 .heroRight::after {
@@ -193,7 +199,7 @@
   background-color: #0d0d0d;
 }
 
-.featuredImageWrapper img {
+.featuredImageWrapper img, .featuredImageWrapper canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -205,6 +211,10 @@
 .featuredImageWrapper:hover img {
   filter: grayscale(0%) contrast(105%) brightness(100%) saturate(110%);
   transform: scale(1.03);
+}
+
+.featuredImageWrapper:hover canvas {
+  filter: grayscale(0%) contrast(105%) brightness(100%) saturate(110%);
 }
 
 .featuredImageWrapper::after {
