@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
+import WavesBackground from '../components/WavesBackground';
 
 const archiveData = [
   {
@@ -222,10 +223,13 @@ const Blogs = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
   return (
-    <div className={styles.container}>
-      {/* 01 - Header Section */}
-      <header className={styles.journalHeader}>
-        <div className={styles.journalHeaderLeft}>
+    <div className={styles.pageWrapper}>
+      <WavesBackground strokeColor="rgba(0, 0, 0, 0.08)" spacing={8}>
+        <div className={styles.heroSectionWrapper}>
+          <div className={styles.container} style={{ paddingBottom: '0', minHeight: 'auto' }}>
+            {/* 01 - Header Section */}
+            <header className={styles.journalHeader}>
+              <div className={styles.journalHeaderLeft}>
           <motion.span 
             className="text-mono"
             style={{ fontSize: '0.75rem', letterSpacing: '0.15em', marginBottom: '2rem', display: 'block' }}
@@ -259,10 +263,14 @@ const Blogs = () => {
           />
         </motion.div>
       </header>
+        </div>
+      </div>
+      </WavesBackground>
 
-      {/* 02 - Filters */}
-      <div className={styles.filtersWrapper}>
-        {filters.map((f) => (
+      <div className={styles.container} style={{ paddingTop: '2rem', paddingBottom: '0', minHeight: 'auto' }}>
+        {/* 02 - Filters */}
+        <div className={styles.filtersWrapper}>
+          {filters.map((f) => (
           <div key={f} className={styles.filterItem}>
             <button 
               className={`${styles.filterBtn} text-mono ${activeFilter === f ? styles.filterBtnActive : ''}`}
@@ -275,11 +283,12 @@ const Blogs = () => {
             )}
           </div>
         ))}
+        </div>
+        <div className={styles.divider}></div>
       </div>
-
-      <div className={styles.divider}></div>
-
-      {/* 03 - Timeline */}
+      
+      <div className={styles.container} style={{ paddingTop: '2rem' }}>
+        {/* 03 - Timeline */}
       <div className={styles.timelineContainer}>
         {archiveData.map((yearData) => {
           if (yearData.isExpandedDefault) {
@@ -341,8 +350,9 @@ const Blogs = () => {
           <div className={styles.footerCopyright}>
             <span className="text-mono" style={{fontSize: '0.75rem', lineHeight: '2'}}>© 2026 Siddhesh Goel.<br/>All rights reserved.</span>
           </div>
-        </div>
-      </footer>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };
