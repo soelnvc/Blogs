@@ -58,16 +58,24 @@ const ScrollWrapper = ({ children }) => {
 function App() {
   return (
     <Router>
-      <ScrollWrapper>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/articles" element={<Blogs />} />
-          <Route path="/topics" element={<Blogs />} />
-          <Route path="/about" element={<Blogs />} />
-          <Route path="/search" element={<Blogs />} />
-        </Routes>
-      </ScrollWrapper>
+      {/* Fixed Left & Right Black Sidebars */}
+      <div className="site-frame-left" aria-hidden="true" />
+      <div className="site-frame-right" aria-hidden="true" />
+
+      <div className="site-canvas">
+        <div className="site-sheet">
+          <ScrollWrapper>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/articles" element={<Blogs />} />
+              <Route path="/topics" element={<Blogs />} />
+              <Route path="/about" element={<Blogs />} />
+              <Route path="/search" element={<Blogs />} />
+            </Routes>
+          </ScrollWrapper>
+        </div>
+      </div>
     </Router>
   );
 }

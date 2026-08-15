@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 2000px;
   margin: 0 auto;
-  padding-top: 6rem; /* Space for fixed navbar */
+  padding-top: 0;
   color: var(--color-text);
 }
 
@@ -22,7 +22,7 @@
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: calc(100vh - 6rem);
+  min-height: calc(100vh - 71px);
   border-bottom: 1px solid var(--color-border);
 }
 

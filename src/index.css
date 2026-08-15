@@ -31,14 +31,18 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: #000000;
+}
+
 body {
-  background-color: var(--color-bg);
+  background-color: #000000;
   color: var(--color-text);
   font-family: var(--font-mono);
   overflow-x: hidden;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Typography utilities */
@@ -90,4 +94,60 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+/* Fixed 15px Left & Right Black Sidebars */
+.site-frame-left {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15px;
+  background-color: #000000;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.site-frame-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  background-color: #000000;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+/* Outer black canvas with static scrolling 15px top/bottom margins */
+.site-canvas {
+  margin: 0 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #000000;
+  min-height: 100vh;
+}
+
+/* The actual page sheet */
+.site-sheet {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: calc(100vh - 30px);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .site-frame-left,
+  .site-frame-right {
+    width: 10px;
+  }
+  .site-canvas {
+    margin: 0 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .site-sheet {
+    min-height: calc(100vh - 20px);
+  }
 }
