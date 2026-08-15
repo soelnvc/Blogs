@@ -543,12 +543,26 @@
   z-index: 1;
 }
 
-/* --- 08 Footer Section --- */
-.footer {
-  padding: 4rem;
+.mainContent {
+  position: relative;
+  z-index: 2;
+  background-color: var(--color-bg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08); /* Gives a floating depth effect over the footer */
+}
+
+.footerRevealWrapper {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.footerSticky {
+  padding: 8rem 4rem;
+  border-top: 1px solid var(--color-border);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 2rem;
+  background-color: #EFEFEF; /* Slightly darker shade to give visual depth when main content casts shadow over it */
 }
 
 .footerCol {
@@ -646,7 +660,7 @@
     padding-right: 0;
   }
   
-  .footer {
+  .footerSticky {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
   }

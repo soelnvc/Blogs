@@ -61,7 +61,8 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      {/* 01 - Hero */}
+      <main className={styles.mainContent}>
+        {/* 01 - Hero */}
       <section className={styles.hero} id="hero" ref={heroScrollRef}>
         <motion.div 
           className={styles.heroLeft}
@@ -279,12 +280,14 @@ const Home = () => {
           <ImageParallax src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=800&q=80" alt="Notebook and coffee" />
         </motion.div>
       </section>
+      </main>
 
       {/* 08 - Footer */}
-      <motion.footer 
-        className={styles.footer}
-        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-      >
+      <div className={styles.footerRevealWrapper}>
+        <motion.footer 
+          className={styles.footerSticky}
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
+        >
         <motion.div className={styles.footerLogo} variants={fadeUpVariant}>
           <span className="heading-condensed" style={{ fontSize: '2rem', letterSpacing: '0.05em' }}>
             S<span style={{ color: 'var(--color-highlight)' }}>·</span>G
@@ -316,6 +319,7 @@ const Home = () => {
           </p>
         </motion.div>
       </motion.footer>
+      </div>
     </div>
   );
 };
