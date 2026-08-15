@@ -159,6 +159,12 @@ export default function WavesBackground(props) {
     };
   }, [spacing]);
 
+  useEffect(() => {
+    pathsRef.current.forEach(path => {
+      path.setAttribute("stroke", strokeColor);
+    });
+  }, [strokeColor]);
+
   const setSize = () => {
     if (!containerRef.current || !svgRef.current) return;
     boundingRef.current = containerRef.current.getBoundingClientRect();

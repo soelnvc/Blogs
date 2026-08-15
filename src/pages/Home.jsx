@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import InteractiveParticleText from '../components/InteractiveParticleText';
 import LiquidHover from '../components/LiquidHover';
 import Footer from '../components/Footer';
+import { useTheme } from '../context/ThemeContext';
 import styles from './Home.module.css';
 
 const fadeUpVariant = {
@@ -59,6 +60,11 @@ const Home = () => {
   const heroScrollRef = useRef(null);
   const { scrollY } = useScroll();
   const heroImageY = useTransform(scrollY, [0, 1000], ["-10%", "5%"]);
+  const { theme } = useTheme();
+
+  const particleTextColor = theme === 'dark' ? '#F5F5F3' : '#111111';
+  const particleSecondaryColor = theme === 'dark' ? '#F40E3F' : (theme === 'red' ? '#111111' : '#F40E3F');
+  const particleColorMix = theme === 'red' ? 0 : 10;
 
   return (
     <div className={styles.container}>
@@ -79,9 +85,9 @@ const Home = () => {
               text={["THOUGHTS,", "IDEAS,", "AND THINGS", "I'VE FIGURED", "OUT."]}
               fontFamily='"Oswald", sans-serif'
               fontWeight="700"
-              textColor="#111111"
-              secondaryColor="#E53935"
-              colorMix={10}
+              textColor={particleTextColor}
+              secondaryColor={particleSecondaryColor}
+              colorMix={particleColorMix}
               interactionType="Hover: Repel"
               particleSize={2.0}
               resolution={6}

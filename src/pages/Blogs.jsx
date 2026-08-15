@@ -6,6 +6,7 @@ import styles from './Blogs.module.css';
 import WavesBackground from '../components/WavesBackground';
 import Footer from '../components/Footer';
 import LiquidHover from '../components/LiquidHover';
+import { useTheme } from '../context/ThemeContext';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 40 },
@@ -236,11 +237,15 @@ const CollapsibleYear = ({ yearData }) => {
 
 const Blogs = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const { theme } = useTheme();
+  const waveStroke = theme === 'red' 
+    ? 'rgba(17, 17, 17, 0.85)' 
+    : (theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)');
 
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainContent}>
-        <WavesBackground strokeColor="rgba(0, 0, 0, 0.08)" spacing={8}>
+        <WavesBackground strokeColor={waveStroke} spacing={8}>
           <div className={styles.heroSectionWrapper}>
             <div className={styles.container} style={{ paddingBottom: '0', minHeight: 'auto' }}>
             {/* 01 - Header Section */}
