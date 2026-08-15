@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import InteractiveParticleText from '../components/InteractiveParticleText';
 import styles from './Home.module.css';
 
 const fadeUpVariant = {
@@ -70,12 +71,23 @@ const Home = () => {
           initial="hidden"
           animate="visible"
         >
-          <motion.h1 className="heading-condensed heading-hero" style={{ overflow: 'hidden' }}>
-            <motion.span style={{ display: 'block' }} variants={fadeUpVariant}>THOUGHTS,</motion.span>
-            <motion.span style={{ display: 'block' }} variants={fadeUpVariant}>IDEAS,</motion.span>
-            <motion.span style={{ display: 'block' }} variants={fadeUpVariant}>AND THINGS</motion.span>
-            <motion.span style={{ display: 'block' }} variants={fadeUpVariant}>I'VE FIGURED OUT.</motion.span>
-          </motion.h1>
+          <motion.div 
+            variants={fadeUpVariant}
+            style={{ width: '100%', height: 'auto', cursor: 'crosshair', zIndex: 10, position: 'relative' }}
+          >
+            <InteractiveParticleText 
+              text={["THOUGHTS,", "IDEAS,", "AND THINGS", "I'VE FIGURED OUT."]}
+              fontFamily='"Oswald", sans-serif'
+              fontWeight="700"
+              textColor="#111111"
+              secondaryColor="#E53935"
+              colorMix={10}
+              interactionType="Hover: Repel"
+              particleSize={2.0}
+              resolution={6}
+              shatterForce={8}
+            />
+          </motion.div>
           <motion.div className={styles.heroDescriptionBox} variants={fadeUpVariant}>
             <div className={styles.horizontalLine} style={{ transformOrigin: 'left' }} />
             <p className="text-mono">
