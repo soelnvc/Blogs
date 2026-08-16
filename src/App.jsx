@@ -34,15 +34,20 @@ const ScrollWrapper = ({ children }) => {
 
     rafId = requestAnimationFrame(raf);
 
-    if (location.hash) {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // Default to top of page on reload/navigation
+    lenis.scrollTo(0, { immediate: true });
+
+    if (location.hash && location.hash !== '#top') {
       setTimeout(() => {
         const el = document.querySelector(location.hash);
         if (el) {
           lenis.scrollTo(el, { offset: -80, duration: 1.5 });
         }
-      }, 100);
-    } else {
-      lenis.scrollTo(0, { immediate: true });
+      }, 150);
     }
 
     return () => {

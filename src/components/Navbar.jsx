@@ -198,6 +198,8 @@ const Navbar = () => {
   const handleNavClick = (e, targetHash) => {
     if (location.pathname === '/') {
       e.preventDefault();
+      // Keep URL clean so page reloads always open at the Hero top
+      window.history.replaceState(null, '', '/');
       if (targetHash === '#top' || targetHash === '#hero') {
         window.__lenis?.scrollTo(0, { duration: 1.5 });
       } else {

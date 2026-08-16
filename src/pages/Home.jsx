@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useVelocity } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import InteractiveParticleText from '../components/InteractiveParticleText';
 import LiquidHover from '../components/LiquidHover';
@@ -117,6 +117,72 @@ const Home = () => {
     target: latestSectionRef,
     offset: ["start end", "end start"]
   });
+
+  // Pinned Horizontal Scroll for Topics Section
+  const topicsSectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const [maxScrollDistance, setMaxScrollDistance] = useState(1500);
+
+  useEffect(() => {
+    const updateDistance = () => {
+      if (trackRef.current) {
+        const scrollW = trackRef.current.scrollWidth;
+        const clientW = window.innerWidth;
+        const padding = 120;
+        setMaxScrollDistance(Math.max(0, scrollW - clientW + padding));
+      }
+    };
+    updateDistance();
+    window.addEventListener('resize', updateDistance);
+    return () => window.removeEventListener('resize', updateDistance);
+  }, []);
+
+  const { scrollYProgress: rawTopicsScrollProgress } = useScroll({
+    target: topicsSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Responsive liquid spring for immediate switch and silky continuous glide
+  const smoothTopicsScrollProgress = useSpring(rawTopicsScrollProgress, {
+    mass: 0.15,
+    stiffness: 75,
+    damping: 20,
+    restDelta: 0.0001
+  });
+
+  // Dynamic momentum velocity for iOS-style bouncy card skew
+  const scrollVelocity = useVelocity(smoothTopicsScrollProgress);
+  const smoothVelocity = useSpring(scrollVelocity, { stiffness: 120, damping: 25 });
+  const trackSkew = useTransform(smoothVelocity, [-1.2, 0, 1.2], [-3, 0, 3]);
+
+  // Tactile Apple-style snap-in on intro and cinematic zoom-out on outro
+  const fitScale = useTransform(
+    smoothTopicsScrollProgress,
+    [0, 0.04, 0.12, 0.78, 0.92, 1],
+    [0.90, 1.025, 1.0, 1.0, 0.95, 0.88]
+  );
+  const outroOpacity = useTransform(
+    smoothTopicsScrollProgress,
+    [0, 0.05, 0.78, 1],
+    [0.85, 1, 1, 0.75]
+  );
+  const outroY = useTransform(
+    smoothTopicsScrollProgress,
+    [0.78, 1],
+    [0, -20]
+  );
+
+  // Horizontal translation active across 0.0 -> 0.78, settling on last card before outro zoom-out
+  const topicTranslateX = useTransform(
+    smoothTopicsScrollProgress,
+    [0, 0.78, 1],
+    [0, -maxScrollDistance, -maxScrollDistance]
+  );
+  const progressScaleX = useTransform(
+    smoothTopicsScrollProgress,
+    [0, 0.78, 1],
+    [0, 1, 1]
+  );
 
   const particleTextColor = theme === 'dark' ? '#F5F5F3' : '#111111';
   const particleSecondaryColor = theme === 'dark' ? '#F40E3F' : (theme === 'red' ? '#111111' : '#F40E3F');
@@ -264,43 +330,66 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 04 - Topics */}
-      <section className={styles.topics} id="topics">
-        <motion.div 
-          className={styles.latestHeader} style={{ marginBottom: '3rem' }}
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
-        >
-          <span className="text-mono" style={{ letterSpacing: '0.1em' }}>EXPLORE BY TOPIC</span>
-          <Link to="/topics" className={styles.viewAllLink}>VIEW ALL TOPICS &rarr;</Link>
-        </motion.div>
-        <motion.div 
-          className={styles.topicGrid}
-          variants={staggerContainer}
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
-        >
-          {topics.map((topic) => (
+      {/* 04 - Topics: Pinned Horizontal Scroll */}
+      <section className={styles.topicsSectionWrapper} id="topics" ref={topicsSectionRef}>
+        <div className={styles.topicsSticky}>
+          <div className={styles.topicsHeaderWrapper}>
+            <div className={styles.latestHeader} style={{ marginBottom: 0 }}>
+              <span className="text-mono" style={{ letterSpacing: '0.1em' }}>EXPLORE BY TOPIC</span>
+              <Link to="/topics" className={styles.viewAllLink}>VIEW ALL TOPICS &rarr;</Link>
+            </div>
+            <div className={styles.topicsProgressBarWrapper}>
+              <motion.div 
+                className={styles.topicsProgressBar}
+                style={{ scaleX: progressScaleX }}
+              />
+            </div>
+          </div>
+
+          <motion.div 
+            className={styles.topicTrackContainer}
+            style={{ 
+              scale: fitScale, 
+              opacity: outroOpacity, 
+              y: outroY,
+              transformOrigin: "center center"
+            }}
+          >
             <motion.div 
-              key={topic.id} 
-              className={styles.topicCard} 
-              variants={fadeUpVariant}
-              onClick={() => navigate('/topics')}
+              ref={trackRef}
+              className={styles.topicTrack}
+              style={{ 
+                x: topicTranslateX,
+                skewX: trackSkew,
+                transformOrigin: "left center"
+              }}
             >
-              <div className={styles.topicHeader}>
-                <span className="heading-condensed" style={{ fontSize: '3.5rem' }}>{topic.id}</span>
-              </div>
-              <div className={styles.topicInfo}>
-                <h4 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>{topic.title}</h4>
-                <span className="text-mono" style={{ fontSize: '0.75rem', opacity: 0.6 }}>{topic.count}</span>
-              </div>
-              <div className={styles.topicImageWrapper}>
-                <img src={topic.img} alt={topic.title} />
-                <div className={styles.topicArrow}>
-                  <ArrowUpRight size={20} />
-                </div>
-              </div>
+              {topics.map((topic) => (
+                <motion.div 
+                  key={topic.id} 
+                  className={styles.topicCard} 
+                  onClick={() => navigate('/topics')}
+                  whileHover={{ scale: 1.025, y: -6 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                >
+                  <div className={styles.topicHeader}>
+                    <span className="heading-condensed" style={{ fontSize: '3.5rem' }}>{topic.id}</span>
+                  </div>
+                  <div className={styles.topicInfo}>
+                    <h4 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>{topic.title}</h4>
+                    <span className="text-mono" style={{ fontSize: '0.75rem', opacity: 0.6 }}>{topic.count}</span>
+                  </div>
+                  <div className={styles.topicImageWrapper}>
+                    <img src={topic.img} alt={topic.title} />
+                    <div className={styles.topicArrow}>
+                      <ArrowUpRight size={20} />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* 05 - Personal Statement */}
