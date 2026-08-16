@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 const InteractiveParticleText = ({
   text,
@@ -6,9 +6,9 @@ const InteractiveParticleText = ({
   fontWeight = '700',
   textColor = '#111111',
   secondaryColor = '#F40E3F',
-  colorMix = 5, // 5% chance for secondary color
+  colorMix = 5, // % chance for secondary color
   particleShape = 'Square',
-  particleSize = 1.5,
+  particleSize = 1.25, // Crisp 2.5px square with distinct spacing
   resolution = 8,
   shatterForce = 6,
   springTension = 0.05,
@@ -85,7 +85,8 @@ const InteractiveParticleText = ({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       let newParticles = [];
-      const step = Math.max(1, 11 - resolution);
+      // Grid step of 4px ensures a clean ~1.5px gap between 2.5px square boxes
+      const step = 4;
       
       for (let y = 0; y < canvas.height; y += step * dpr) {
         for (let x = 0; x < canvas.width; x += step * dpr) {
@@ -98,8 +99,8 @@ const InteractiveParticleText = ({
             newParticles.push({
               originX: canvasX,
               originY: canvasY,
-              x: canvasX + (Math.random() - 0.5) * 50, // Slight initial scattering for dramatic assemble
-              y: canvasY + (Math.random() - 0.5) * 50,
+              x: canvasX + (Math.random() - 0.5) * 40,
+              y: canvasY + (Math.random() - 0.5) * 40,
               vx: 0,
               vy: 0,
               color: pColor
@@ -153,7 +154,6 @@ const InteractiveParticleText = ({
       initParticles();
     });
     
-    // Fallback if fonts are already loaded or takes too long
     const timeoutId = setTimeout(() => {
       initParticles();
     }, 500);
@@ -208,6 +208,6 @@ const InteractiveParticleText = ({
       <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "block", pointerEvents: "none" }} />
     </div>
   );
-}
+};
 
 export default InteractiveParticleText;
