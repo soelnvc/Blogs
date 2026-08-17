@@ -165,17 +165,16 @@ const Navbar = () => {
   const nextThemeLabel = theme === 'light' ? 'Solar Eclipse' : theme === 'red' ? 'Crescent Moon' : 'Sun';
 
   const handleToggleSearch = () => {
-    if (isSearchOpen && searchQuery.trim()) {
-      handleSearchSubmit();
-    } else {
-      setIsSearchOpen(prev => !prev);
-    }
+    setIsSearchOpen(prev => !prev);
   };
 
   const handleSearchSubmit = (e) => {
     if (e) e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/articles?q=${encodeURIComponent(searchQuery.trim())}`);
+    const cleanQ = searchQuery.trim();
+    if (cleanQ) {
+      router.push(`/articles?q=${encodeURIComponent(cleanQ)}`);
+      // Re-trigger smooth scroll even if query string didn't change
+      window.dispatchEvent(new CustomEvent('scroll-to-search-results'));
     } else {
       router.push('/articles');
     }
@@ -293,7 +292,14 @@ const Navbar = () => {
                 transition={{ type: "spring", stiffness: 420, damping: 30 }}
               >
                 <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-                  <Search size={16} className={styles.drawerSearchIcon} />
+                  <button 
+                    type="submit" 
+                    className={styles.drawerSearchSubmitBtn}
+                    title="Search"
+                    aria-label="Submit search"
+                  >
+                    <Search size={16} className={styles.drawerSearchIcon} />
+                  </button>
                   <input
                     ref={searchInputRef}
                     type="text"

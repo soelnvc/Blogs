@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -138,8 +138,13 @@ const CollapsibleYear = ({ yearData }) => {
 const BlogsContent = ({ articles = [] }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialTopic = searchParams.get('topic') || searchParams.get('q') || 'ALL';
+  const searchQuery = searchParams.get('q') || '';
+  const topicParam = searchParams.get('topic') || '';
   
+  const resultsRef = useRef(null);
+  const [searchResults, setSearchResults] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+
   // Full list of topics (with dynamically included ones)
   const filters = useMemo(() => {
     const defaultTopics = ['ALL', 'WORK', 'TECH', 'DESIGN & COLORS', 'LIFE', 'ART AND PICS', 'BUILDING', 'OTHERS'];
@@ -149,8 +154,11 @@ const BlogsContent = ({ articles = [] }) => {
   }, [articles]);
 
   const [activeFilter, setActiveFilter] = useState(() => {
-    const found = filters.find(f => f.toUpperCase() === initialTopic.toUpperCase());
-    return found || 'ALL';
+    if (topicParam) {
+      const found = filters.find(f => f.toUpperCase() === topicParam.toUpperCase());
+      return found || 'ALL';
+    }
+    return 'ALL';
   });
 
   const { theme } = useTheme();
@@ -158,14 +166,54 @@ const BlogsContent = ({ articles = [] }) => {
     ? 'rgba(17, 17, 17, 0.85)' 
     : (theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)');
 
-  // Sync state if URL query params change
+  // Sync state if topic param changes
   useEffect(() => {
-    const topicParam = searchParams.get('topic') || searchParams.get('q');
     if (topicParam) {
       const match = filters.find(f => f.toUpperCase() === topicParam.toUpperCase());
       if (match) setActiveFilter(match);
+    } else if (!searchQuery) {
+      setActiveFilter('ALL');
     }
-  }, [searchParams]);
+  }, [topicParam, searchQuery, filters]);
+
+  const scrollToResults = () => {
+    if (resultsRef.current) {
+      const yOffset = -90; // Offset for navbar
+      const y = resultsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  // Listen for search submissions to always re-scroll
+  useEffect(() => {
+    const handleEvent = () => {
+      setTimeout(scrollToResults, 60);
+    };
+    window.addEventListener('scroll-to-search-results', handleEvent);
+    return () => window.removeEventListener('scroll-to-search-results', handleEvent);
+  }, []);
+
+  // Perform semantic search via API if ?q= is present
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      setIsSearching(true);
+      fetch(`/api/search?q=${encodeURIComponent(searchQuery.trim())}`)
+        .then(res => res.json())
+        .then(data => {
+          setSearchResults(data.results || []);
+          setIsSearching(false);
+
+          // Auto smooth scroll directly to results skipping hero section
+          setTimeout(scrollToResults, 120);
+        })
+        .catch(err => {
+          console.error('Search fetch error:', err);
+          setIsSearching(false);
+        });
+    } else {
+      setSearchResults(null);
+    }
+  }, [searchQuery]);
 
   const handleFilterSelect = (filterName) => {
     setActiveFilter(filterName);
@@ -181,17 +229,21 @@ const BlogsContent = ({ articles = [] }) => {
     const counts = { ALL: articles.length };
     filters.forEach(f => {
       if (f !== 'ALL') {
-        counts[f] = articles.filter(a => a.category.toUpperCase() === f.toUpperCase()).length;
+        counts[f] = articles.filter(a => a.category?.toUpperCase() === f.toUpperCase()).length;
       }
     });
     return counts;
   }, [articles, filters]);
 
-  // Filtered articles
+  // Filtered articles (or search results)
   const filteredArticles = useMemo(() => {
+    if (searchQuery && searchResults !== null) {
+      if (activeFilter === 'ALL') return searchResults;
+      return searchResults.filter(a => a.category?.toUpperCase() === activeFilter.toUpperCase());
+    }
     if (activeFilter === 'ALL') return articles;
-    return articles.filter(a => a.category.toUpperCase() === activeFilter.toUpperCase());
-  }, [activeFilter, articles]);
+    return articles.filter(a => a.category?.toUpperCase() === activeFilter.toUpperCase());
+  }, [activeFilter, articles, searchQuery, searchResults]);
 
   // Group filtered articles into Year / Month blocks
   const groupedData = useMemo(() => {
@@ -271,7 +323,7 @@ const BlogsContent = ({ articles = [] }) => {
           </div>
         </WavesBackground>
 
-        <div className={styles.container} style={{ paddingTop: '2.5rem', paddingBottom: '0', minHeight: 'auto' }}>
+        <div ref={resultsRef} className={styles.container} style={{ paddingTop: '2.5rem', paddingBottom: '0', minHeight: 'auto' }}>
           {/* 02 - Filters */}
           <motion.div 
             className={styles.filtersWrapper}
@@ -311,16 +363,20 @@ const BlogsContent = ({ articles = [] }) => {
           {/* Filter Status Meta */}
           <div className={styles.filterStatusMeta}>
             <span className="text-mono">
-              {activeFilter === 'ALL' 
+              {searchQuery ? (
+                isSearching 
+                  ? `SEMANTIC SEARCHING FOR: "${searchQuery}"...`
+                  : `SEARCH RESULTS FOR: "${searchQuery}" — ${filteredArticles.length} ${filteredArticles.length === 1 ? 'RESULT' : 'RESULTS'}`
+              ) : activeFilter === 'ALL' 
                 ? `SHOWING ALL ${filteredArticles.length} ARTICLES` 
                 : `FILTER: [ ${activeFilter} ] — ${filteredArticles.length} ${filteredArticles.length === 1 ? 'ARTICLE' : 'ARTICLES'}`}
             </span>
-            {activeFilter !== 'ALL' && (
+            {(activeFilter !== 'ALL' || searchQuery) && (
               <button 
                 className={`${styles.clearFilterBtn} text-mono`}
-                onClick={() => handleFilterSelect('ALL')}
+                onClick={() => router.push('/articles')}
               >
-                CLEAR FILTER &times;
+                {searchQuery ? 'CLEAR SEARCH \u00d7' : 'CLEAR FILTER \u00d7'}
               </button>
             )}
           </div>
@@ -329,32 +385,48 @@ const BlogsContent = ({ articles = [] }) => {
         </div>
         
         <div className={styles.container} style={{ paddingTop: '1.5rem', paddingBottom: '5rem' }}>
-          {/* 03 - Timeline */}
+          {/* 03 - Timeline or Direct Search Results */}
           {filteredArticles.length > 0 ? (
-            <motion.div 
-              className={styles.timelineContainer}
-              layout
-            >
-              {groupedData.map((yearData) => {
-                if (yearData.isExpandedDefault) {
-                  return (
-                    <div key={yearData.year} className={styles.expandedYearWrapper}>
-                      {yearData.months.map((monthData) => (
-                        <MonthBlock 
-                          key={monthData.month} 
-                          year={yearData.year} 
-                          month={monthData.month} 
-                          articles={monthData.articles} 
-                          isFirstMonth={monthData.month === yearData.months[0]?.month}
-                        />
-                      ))}
-                    </div>
-                  );
-                } else {
-                  return <CollapsibleYear key={yearData.year} yearData={yearData} />;
-                }
-              })}
-            </motion.div>
+            searchQuery ? (
+              <motion.div 
+                className={styles.articlesList}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                style={{ width: '100%', borderTop: '1px solid var(--color-border)' }}
+              >
+                <AnimatePresence mode="popLayout">
+                  {filteredArticles.map((article) => (
+                    <ArticleRow key={article.id} article={article} />
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            ) : (
+              <motion.div 
+                className={styles.timelineContainer}
+                layout
+              >
+                {groupedData.map((yearData) => {
+                  if (yearData.isExpandedDefault) {
+                    return (
+                      <div key={yearData.year} className={styles.expandedYearWrapper}>
+                        {yearData.months.map((monthData) => (
+                          <MonthBlock 
+                            key={monthData.month} 
+                            year={yearData.year} 
+                            month={monthData.month} 
+                            articles={monthData.articles} 
+                            isFirstMonth={monthData.month === yearData.months[0]?.month}
+                          />
+                        ))}
+                      </div>
+                    );
+                  } else {
+                    return <CollapsibleYear key={yearData.year} yearData={yearData} />;
+                  }
+                })}
+              </motion.div>
+            )
           ) : (
             <motion.div 
               className={styles.emptyStateWrapper}
@@ -366,11 +438,13 @@ const BlogsContent = ({ articles = [] }) => {
                 NO ARTICLES FOUND
               </h3>
               <p className="text-mono" style={{ opacity: 0.6, marginBottom: '2rem' }}>
-                There are currently no published articles under the topic "{activeFilter}".
+                {searchQuery 
+                  ? `No articles matched your search query "${searchQuery}".`
+                  : `There are currently no published articles under the topic "${activeFilter}".`}
               </p>
               <button 
                 className={`${styles.resetFilterBtn} text-mono`}
-                onClick={() => handleFilterSelect('ALL')}
+                onClick={() => router.push('/articles')}
               >
                 VIEW ALL ARTICLES &rarr;
               </button>
