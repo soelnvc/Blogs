@@ -28,7 +28,7 @@ const articleSkeleton = {
   ]
 };
 
-const Article = () => {
+const Article = ({ frontmatter = {}, children }) => {
   const { id } = useParams();
 
   // Top Reading Progress
@@ -85,7 +85,7 @@ const Article = () => {
               <span>ARCHIVE / ALL ARTICLES</span>
             </Link>
             <span className={styles.categoryBadge}>
-              {articleSkeleton.code} // {articleSkeleton.category}
+              {frontmatter.category || '01 // TECHNOLOGY'}
             </span>
           </div>
         </div>
@@ -167,7 +167,7 @@ const Article = () => {
             {/* Center Column: Clean Blank Canvas Slot for CMS */}
             <article className={styles.centerCanvas}>
               <div className={styles.cmsCanvasSlot} id="cms-canvas-root">
-                {/* Clean Blank Canvas for CMS Markdown / Block Content */}
+                {children}
               </div>
             </article>
 
@@ -179,10 +179,8 @@ const Article = () => {
                 <div>
                   <div className={styles.sidebarSectionTitle}>TOPIC INDEX</div>
                   <div className={styles.tagsWrapper}>
-                    {articleSkeleton.tags.map((t) => (
-                      <span key={t} className={styles.tagPill}>
-                        #{t}
-                      </span>
+                    {(frontmatter.topics || articleSkeleton.tags).map((tag, idx) => (
+                      <span key={idx} className={styles.tagPill}>#{tag}</span>
                     ))}
                   </div>
                 </div>

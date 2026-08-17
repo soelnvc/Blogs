@@ -24,175 +24,7 @@ const staggerContainer = {
   }
 };
 
-const allArticles = [
-  {
-    id: '01',
-    category: 'TECHNOLOGY',
-    title: 'How I Built My First AI Agent',
-    subtitle: 'The story behind the idea, the architecture, and the lessons that mattered.',
-    date: 'AUG 15, 2026',
-    readTime: '08 MIN READ',
-    year: '2026',
-    month: 'AUGUST',
-    link: '/article/1'
-  },
-  {
-    id: '02',
-    category: 'DESIGN',
-    title: 'Why Minimal Interfaces Feel Better',
-    subtitle: 'Exploring clarity, hierarchy and the power of restraint in design.',
-    date: 'AUG 11, 2026',
-    readTime: '06 MIN READ',
-    year: '2026',
-    month: 'AUGUST',
-    link: '/article/2'
-  },
-  {
-    id: '03',
-    category: 'BUILDING',
-    title: 'What Building in Public Taught Me',
-    subtitle: 'On shipping consistently, feedback loops and embracing the messy middle.',
-    date: 'AUG 07, 2026',
-    readTime: '10 MIN READ',
-    year: '2026',
-    month: 'AUGUST',
-    link: '/article/3'
-  },
-  {
-    id: '04',
-    category: 'LIFE',
-    title: 'Notes on Focus in a Distracted World',
-    subtitle: 'Thoughts on protecting attention and doing deep work in the age of noise.',
-    date: 'AUG 02, 2026',
-    readTime: '07 MIN READ',
-    year: '2026',
-    month: 'AUGUST',
-    link: '/article/4'
-  },
-  {
-    id: '05',
-    category: 'TECHNOLOGY',
-    title: 'Understanding Vector Databases',
-    subtitle: 'A gentle introduction to embeddings, similarity search and RAG.',
-    date: 'JUL 28, 2026',
-    readTime: '09 MIN READ',
-    year: '2026',
-    month: 'JULY',
-    link: '/article/5'
-  },
-  {
-    id: '06',
-    category: 'DESIGN',
-    title: 'The Aesthetics of Good Systems',
-    subtitle: 'Why beauty in systems isn\'t decoration - it\'s structure.',
-    date: 'JUL 21, 2026',
-    readTime: '05 MIN READ',
-    year: '2026',
-    month: 'JULY',
-    link: '/article/6'
-  },
-  {
-    id: '07',
-    category: 'PHILOSOPHY',
-    title: 'On Learning, Unlearning and Relearning',
-    subtitle: 'A short note on staying curious as everything changes.',
-    date: 'JUL 14, 2026',
-    readTime: '06 MIN READ',
-    year: '2026',
-    month: 'JULY',
-    link: '/article/7'
-  },
-  {
-    id: '08',
-    category: 'BUSINESS',
-    title: 'Bootstrapping vs Venture Capital in 2026',
-    subtitle: 'Evaluating optionality, leverage, and sustainable cashflow in modern tech.',
-    date: 'JUN 28, 2026',
-    readTime: '11 MIN READ',
-    year: '2026',
-    month: 'JUNE',
-    link: '/article/8'
-  },
-  {
-    id: '09',
-    category: 'PHOTOGRAPHY',
-    title: 'Seeing in Monochromatic High Contrast',
-    subtitle: 'How stripping color reveals structure, texture, and light narrative.',
-    date: 'JUN 15, 2026',
-    readTime: '04 MIN READ',
-    year: '2026',
-    month: 'JUNE',
-    link: '/article/9'
-  },
-  {
-    id: '10',
-    category: 'TECHNOLOGY',
-    title: 'Autonomous Code Generation Pipelines',
-    subtitle: 'Building resilient automated developer loops with tool calling.',
-    date: 'MAY 30, 2026',
-    readTime: '12 MIN READ',
-    year: '2026',
-    month: 'MAY',
-    link: '/article/10'
-  },
-  {
-    id: '11',
-    category: 'BUILDING',
-    title: 'From Zero to Scaled Microservices',
-    subtitle: 'Pragmatic distributed architectures without over-engineering.',
-    date: 'MAY 18, 2026',
-    readTime: '09 MIN READ',
-    year: '2026',
-    month: 'MAY',
-    link: '/article/11'
-  },
-  {
-    id: '12',
-    category: 'LIFE',
-    title: 'The Art of Deliberate Solitude',
-    subtitle: 'Why undistracted thinking time is the greatest multiplier for creativity.',
-    date: 'MAY 04, 2026',
-    readTime: '05 MIN READ',
-    year: '2026',
-    month: 'MAY',
-    link: '/article/12'
-  },
-  {
-    id: '13',
-    category: 'PHILOSOPHY',
-    title: 'Determinism and Emergence in Complex Code',
-    subtitle: 'Exploring how simple rules produce unpredictably rich behaviors.',
-    date: 'APR 20, 2026',
-    readTime: '08 MIN READ',
-    year: '2026',
-    month: 'APRIL',
-    link: '/article/13'
-  },
-  {
-    id: '14',
-    category: 'BUSINESS',
-    title: 'Pricing Digital Artifacts and Software',
-    subtitle: 'Moving beyond commodity subscriptions to value-anchored models.',
-    date: 'APR 08, 2026',
-    readTime: '07 MIN READ',
-    year: '2026',
-    month: 'APRIL',
-    link: '/article/14'
-  },
-  {
-    id: '15',
-    category: 'PHOTOGRAPHY',
-    title: 'Architectural Shadows and Brutalist Geometry',
-    subtitle: 'Visual studies of concrete, negative space, and light gradients.',
-    date: 'MAR 22, 2026',
-    readTime: '06 MIN READ',
-    year: '2026',
-    month: 'MARCH',
-    link: '/article/15'
-  }
-];
 
-const filters = ['ALL', 'TECHNOLOGY', 'DESIGN', 'BUILDING', 'LIFE', 'PHILOSOPHY', 'BUSINESS', 'PHOTOGRAPHY'];
 
 const ArticleRow = ({ article }) => {
   return (
@@ -303,11 +135,19 @@ const CollapsibleYear = ({ yearData }) => {
   );
 };
 
-const BlogsContent = () => {
+const BlogsContent = ({ articles = [] }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialTopic = searchParams.get('topic') || searchParams.get('q') || 'ALL';
   
+  // Full list of topics (with dynamically included ones)
+  const filters = useMemo(() => {
+    const defaultTopics = ['ALL', 'WORK', 'TECH', 'DESIGN & COLORS', 'LIFE', 'ART AND PICS', 'BUILDING', 'OTHERS'];
+    const articleCategories = articles.map(a => a.category?.toUpperCase()).filter(Boolean);
+    const combined = new Set([...defaultTopics, ...articleCategories]);
+    return Array.from(combined);
+  }, [articles]);
+
   const [activeFilter, setActiveFilter] = useState(() => {
     const found = filters.find(f => f.toUpperCase() === initialTopic.toUpperCase());
     return found || 'ALL';
@@ -338,20 +178,20 @@ const BlogsContent = () => {
 
   // Calculate count per category
   const categoryCounts = useMemo(() => {
-    const counts = { ALL: allArticles.length };
+    const counts = { ALL: articles.length };
     filters.forEach(f => {
       if (f !== 'ALL') {
-        counts[f] = allArticles.filter(a => a.category.toUpperCase() === f.toUpperCase()).length;
+        counts[f] = articles.filter(a => a.category.toUpperCase() === f.toUpperCase()).length;
       }
     });
     return counts;
-  }, []);
+  }, [articles, filters]);
 
   // Filtered articles
   const filteredArticles = useMemo(() => {
-    if (activeFilter === 'ALL') return allArticles;
-    return allArticles.filter(a => a.category.toUpperCase() === activeFilter.toUpperCase());
-  }, [activeFilter]);
+    if (activeFilter === 'ALL') return articles;
+    return articles.filter(a => a.category.toUpperCase() === activeFilter.toUpperCase());
+  }, [activeFilter, articles]);
 
   // Group filtered articles into Year / Month blocks
   const groupedData = useMemo(() => {
@@ -545,10 +385,10 @@ const BlogsContent = () => {
   );
 };
 
-const Blogs = () => {
+const Blogs = ({ articles = [] }) => {
   return (
     <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--color-bg)' }} />}>
-      <BlogsContent />
+      <BlogsContent articles={articles} />
     </Suspense>
   );
 };

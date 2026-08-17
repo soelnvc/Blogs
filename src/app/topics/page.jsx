@@ -1,3 +1,4 @@
+import { getAllArticles } from '../../lib/mdx';
 import Blogs from '../../views/Blogs';
 
 export const metadata = {
@@ -6,5 +7,6 @@ export const metadata = {
 };
 
 export default function TopicsPage() {
-  return <Blogs />;
+  const articles = getAllArticles();
+  return <Blogs articles={articles} />;
 }

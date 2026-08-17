@@ -88,25 +88,22 @@ const ParallaxArticleCard = ({ article, index, scrollYProgress, onClick }) => {
   );
 };
 
-const Home = () => {
+const Home = ({ latestArticles = [], allArticles = [] }) => {
   const router = useRouter();
 
-  const latestArticles = [
-    { id: '01', category: 'TECHNOLOGY', title: 'How I Built My First AI Agent', date: 'AUG 15, 2026', readTime: '08 MIN READ' },
-    { id: '02', category: 'DESIGN', title: 'Why Minimal Interfaces Feel Better', date: 'AUG 11, 2026', readTime: '06 MIN READ' },
-    { id: '03', category: 'BUILDING', title: 'What Building in Public Taught Me', date: 'AUG 07, 2026', readTime: '10 MIN READ' },
-    { id: '04', category: 'LIFE', title: 'Notes on Focus in a Distracted World', date: 'AUG 02, 2026', readTime: '07 MIN READ' }
-  ];
+  const getCount = (categoryStr) => {
+    const count = allArticles.filter(a => a.category.toUpperCase() === categoryStr.toUpperCase()).length;
+    return `${count < 10 ? `0${count}` : count} ARTICLES`;
+  };
 
   const topics = [
-    { id: '01', title: 'TECHNOLOGY', count: '18 ARTICLES', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' },
-    { id: '02', title: 'DESIGN', count: '12 ARTICLES', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80' },
-    { id: '03', title: 'BUILDING', count: '09 ARTICLES', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80' },
-    { id: '04', title: 'LIFE', count: '07 ARTICLES', img: 'https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=800&q=80' },
-    { id: '05', title: 'PHILOSOPHY', count: '05 ARTICLES', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80' },
-    { id: '06', title: 'BUSINESS', count: '04 ARTICLES', img: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80' },
-    { id: '07', title: 'PHOTOGRAPHY', count: '06 ARTICLES', img: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80' },
-    { id: '08', title: 'CINEMA', count: '05 ARTICLES', img: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80' },
+    { id: '01', title: 'WORK', count: getCount('WORK'), img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80' },
+    { id: '02', title: 'TECH', count: getCount('TECH'), img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' },
+    { id: '03', title: 'DESIGN & COLORS', count: getCount('DESIGN & COLORS'), img: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
+    { id: '04', title: 'LIFE', count: getCount('LIFE'), img: 'https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=800&q=80' },
+    { id: '05', title: 'ART AND PICS', count: getCount('ART AND PICS'), img: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80' },
+    { id: '06', title: 'BUILDING', count: getCount('BUILDING'), img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80' },
+    { id: '07', title: 'OTHERS', count: getCount('OTHERS'), img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80' },
   ];
 
   const heroScrollRef = useRef(null);
@@ -371,7 +368,7 @@ const Home = () => {
                 <motion.div 
                   key={topic.id} 
                   className={styles.topicCard} 
-                  onClick={() => router.push('/topics')}
+                  onClick={() => router.push(`/articles?topic=${encodeURIComponent(topic.title)}`)}
                   whileHover={{ scale: 1.025, y: -6 }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 >
