@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowUp } from 'lucide-react';
 import styles from './Footer.module.css';
+import SGEmblem from './SGEmblem';
 
 const WaveText = ({ text }) => {
   return (
@@ -70,8 +71,8 @@ const Footer = () => {
       <div className={styles.footerGrid}>
         {/* Cell 1: Brand & Identity */}
         <div className={styles.cellBrand}>
-          <Link href="/" onClick={scrollToTop} className={styles.logoLink}>
-            <span className={styles.logoText}>S<span className={styles.logoDot}>·</span>G</span>
+          <Link href="/" onClick={scrollToTop} className={styles.logoLink} title="Siddhesh Goel">
+            <SGEmblem size={52} variant="theme" />
           </Link>
           <div className={styles.brandTagline}>
             <span className={styles.brandTitle}>CURATED ARCHIVE &amp; SYSTEM ENGINEERING</span>

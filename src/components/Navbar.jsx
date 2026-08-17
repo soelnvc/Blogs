@@ -4,9 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Search, X } from 'lucide-react';
+import { Search, X, Sun, Moon, Sparkles } from 'lucide-react';
 import styles from './Navbar.module.css';
 import { useTheme } from '../context/ThemeContext';
+import SGEmblem from './SGEmblem';
 
 const GithubIcon = ({ size = 14, className }) => (
   <svg 
@@ -218,6 +219,11 @@ const Navbar = () => {
     }
   };
 
+  const handleLogoClick = (e) => {
+    handleNavClick(e, '#top');
+    window.dispatchEvent(new CustomEvent('replay-entrance-animation'));
+  };
+
   return (
     <motion.header className={styles.headerWrapper} style={{ y: navY }}>
       <nav className={styles.navbar}>
@@ -225,10 +231,11 @@ const Navbar = () => {
         <div className={styles.cellLogo}>
           <Link 
             href="/" 
-            onClick={(e) => handleNavClick(e, '#top')}
+            onClick={handleLogoClick}
             className={styles.logoLink}
+            title="Replay Entrance Animation & Go Home"
           >
-            <span className={styles.logoText}>S<span className={styles.logoDot}>·</span>G</span>
+            <SGEmblem size={38} variant="hoverInvert" />
           </Link>
         </div>
 

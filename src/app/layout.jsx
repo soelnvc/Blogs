@@ -2,6 +2,7 @@ import './globals.css';
 import { ThemeProvider } from '../context/ThemeContext';
 import ScrollWrapper from '../components/ScrollWrapper';
 import Navbar from '../components/Navbar';
+import EntranceAnimation from '../components/EntranceAnimation';
 
 export const metadata = {
   title: 'SIDDHESH GOEL // Curated Archive & Systems Engineering',
@@ -28,12 +29,13 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link 
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" 
+          href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Michroma&family=Oswald:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" 
           rel="stylesheet" 
         />
       </head>
       <body>
         <ThemeProvider>
+          <EntranceAnimation />
           {/* Fixed 15px Left & Right Black Sidebars */}
           <div className="site-frame-left" />
           <div className="site-frame-right" />

@@ -1,0 +1,58 @@
+.entranceOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  pointer-events: all;
+  overflow: hidden;
+  user-select: none;
+  background-color: transparent;
+}
+
+/* Split Doors */
+.doorLeft, .doorRight {
+  position: absolute;
+  top: 0;
+  width: 50.1vw; /* 0.1vw overlap ensures no seam gap on high-DPI displays */
+  height: 100vh;
+  background-color: #000000;
+  overflow: hidden;
+  z-index: 10;
+  border: none;
+}
+
+.doorLeft {
+  left: 0;
+}
+
+.doorRight {
+  right: 0;
+}
+
+/* Exact Single 1px Vertical Line in the Horizontal Center of Screen */
+.centerSeamLine {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Central Circle Lock Emblem Container - Exact Center of Viewport */
+.centerLockWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}

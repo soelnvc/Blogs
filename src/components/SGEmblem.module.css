@@ -1,0 +1,68 @@
+.emblemContainer {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              color 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.emblemText {
+  font-family: var(--font-modular, 'Michroma', 'Chakra Petch', sans-serif);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: -1px;
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover Invert Mode (Navbar) */
+.hoverInvert {
+  background-color: var(--color-text, #111111);
+  color: var(--color-bg, #ffffff);
+  border-color: var(--color-text, #111111);
+  cursor: pointer;
+}
+
+.hoverInvert .emblemText {
+  color: var(--color-bg, #ffffff);
+}
+
+.hoverInvert:hover {
+  background-color: var(--color-bg, #ffffff) !important;
+  color: var(--color-text, #111111) !important;
+  border-color: var(--color-text, #111111) !important;
+  transform: scale(1.08) rotate(360deg);
+}
+
+.hoverInvert:hover .emblemText {
+  color: var(--color-text, #111111) !important;
+}
+
+/* Static Footer / Entrance Mode */
+.staticStandard {
+  background-color: var(--color-text, #111111);
+  color: var(--color-bg, #ffffff);
+  border-color: var(--color-text, #111111);
+}
+
+.staticStandard .emblemText {
+  color: var(--color-bg, #ffffff);
+}
+
+.staticWhite {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.staticWhite .emblemText {
+  color: #000000;
+}

@@ -38,11 +38,7 @@
   color: var(--color-text);
   display: inline-block;
   margin-bottom: 2rem;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.logoLink:hover {
-  transform: scale(1.06);
+  cursor: default;
 }
 
 .logoText {
