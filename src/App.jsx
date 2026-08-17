@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Lenis from 'lenis';
 import Home from './pages/Home';
 import Blogs from './pages/Blogs';
+import Article from './pages/Article';
 import ParallaxBackground from './components/ParallaxBackground';
 import Navbar from './components/Navbar';
 
@@ -74,6 +75,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/articles" element={<Blogs />} />
+              <Route path="/article/:id" element={<Article />} />
               <Route path="/topics" element={<Blogs />} />
               <Route path="/about" element={<Blogs />} />
               <Route path="/search" element={<Blogs />} />
