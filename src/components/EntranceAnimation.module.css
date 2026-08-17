@@ -11,6 +11,10 @@
   background-color: transparent;
 }
 
+:global(html.intro-seen) .entranceOverlay {
+  display: none !important;
+}
+
 /* Split Doors */
 .doorLeft, .doorRight {
   position: absolute;

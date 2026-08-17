@@ -10,6 +10,7 @@ export default function EntranceAnimation() {
   const [isComplete, setIsComplete] = useState(false);
 
   const playSequence = () => {
+    document.documentElement.classList.remove('intro-seen');
     setIsComplete(false);
     setPhase('initial');
 
@@ -23,6 +24,7 @@ export default function EntranceAnimation() {
 
     const finishTimer = setTimeout(() => {
       setIsComplete(true);
+      document.documentElement.classList.add('intro-seen');
       sessionStorage.setItem('hasSeenIntro_v2', 'true');
     }, 2200);
 
@@ -38,6 +40,7 @@ export default function EntranceAnimation() {
     if (!hasSeenIntro) {
       playSequence();
     } else {
+      document.documentElement.classList.add('intro-seen');
       setIsComplete(true);
     }
 
