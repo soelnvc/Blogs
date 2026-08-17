@@ -272,32 +272,94 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Cell 6: Search & Collab Capsule */}
-        <div className={styles.cellCollab}>
-          <div className={styles.searchWrapper}>
-            <form onSubmit={handleSearchSubmit} className={`${styles.searchForm} ${isSearchOpen ? styles.searchFormOpen : ''}`}>
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="SEARCH ARCHIVE..."
-                className={styles.searchInput}
-              />
-            </form>
-            <button 
-              type="button" 
-              className={styles.searchIconBtn} 
-              onClick={handleToggleSearch}
-              aria-label={isSearchOpen ? "Submit search or close" : "Open search"}
-            >
-              {isSearchOpen && !searchQuery.trim() ? <X size={13} /> : <Search size={13} />}
-            </button>
+        {/* Cell 6: Editorial Serif Block with Search Drawer */}
+        <div className={styles.cellRightSection}>
+          <div className={styles.cellEditorial}>
+            <div className={styles.editorialTop}>
+              <span>Writing &amp; building systems globally.</span>
+            </div>
+            <Link href="/articles" className={styles.editorialBottom}>
+              <span>Available for collaborations &rarr; <strong className={styles.editorialAction}>Read blog</strong></span>
+            </Link>
           </div>
-          <span className={styles.dividerPipe}>|</span>
-          <span className={styles.collabText}>
-            Available for collaborations &rarr; <Link href="/articles" className={styles.collabLink}>Read blog</Link>
-          </span>
+
+          <AnimatePresence>
+            {isSearchOpen && (
+              <motion.div
+                className={styles.searchDrawer}
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "100%", opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 420, damping: 30 }}
+              >
+                <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+                  <Search size={16} className={styles.drawerSearchIcon} />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="TYPE TO SEARCH ARTICLES..."
+                    className={styles.searchInput}
+                  />
+                  <div className={styles.drawerActions}>
+                    {searchQuery && (
+                      <button 
+                        type="button" 
+                        onClick={() => setSearchQuery('')}
+                        className={styles.clearBtn}
+                        title="Clear"
+                      >
+                        CLEAR
+                      </button>
+                    )}
+                    <span 
+                      className={styles.escBadge} 
+                      onClick={() => setIsSearchOpen(false)}
+                      title="Press ESC to close"
+                    >
+                      ESC
+                    </span>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Cell 7: Search Button */}
+        <div className={styles.cellSearch}>
+          <button 
+            type="button"
+            onClick={handleToggleSearch}
+            className={`${styles.searchBtn} ${isSearchOpen ? styles.searchBtnActive : ''}`} 
+            title={isSearchOpen ? "Close Search" : "Open Search Drawer"}
+            aria-label={isSearchOpen ? "Close Search" : "Open Search"}
+          >
+            <AnimatePresence mode="wait">
+              {isSearchOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, scale: 0.5 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  exit={{ rotate: 90, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={18} className={styles.searchIcon} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="search"
+                  initial={{ rotate: 90, scale: 0.5 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  exit={{ rotate: 90, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Search size={18} className={styles.searchIcon} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
         </div>
       </nav>
     </motion.header>
