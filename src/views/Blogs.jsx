@@ -1,5 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+'use client';
+
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
@@ -207,7 +210,7 @@ const ArticleRow = ({ article }) => {
       
       <div className={styles.articleMainContent}>
         <span className={`${styles.articleCategory} text-mono`}>{article.category}</span>
-        <Link to={article.link} className={styles.articleTitleLink}>
+        <Link href={article.link} className={styles.articleTitleLink}>
           <h4 className="heading-medium" style={{ fontSize: '1.5rem', marginBottom: '0.75rem', marginTop: '0.5rem' }}>{article.title}</h4>
         </Link>
         <p className={`${styles.articleSubtitle} text-mono`} style={{ textTransform: 'none' }}>{article.subtitle}</p>
@@ -300,8 +303,9 @@ const CollapsibleYear = ({ yearData }) => {
   );
 };
 
-const Blogs = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const BlogsContent = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const initialTopic = searchParams.get('topic') || searchParams.get('q') || 'ALL';
   
   const [activeFilter, setActiveFilter] = useState(() => {
@@ -326,11 +330,9 @@ const Blogs = () => {
   const handleFilterSelect = (filterName) => {
     setActiveFilter(filterName);
     if (filterName === 'ALL') {
-      searchParams.delete('topic');
-      searchParams.delete('q');
-      setSearchParams(searchParams);
+      router.push('/articles', { scroll: false });
     } else {
-      setSearchParams({ topic: filterName });
+      router.push(`/articles?topic=${encodeURIComponent(filterName)}`, { scroll: false });
     }
   };
 
@@ -540,6 +542,14 @@ const Blogs = () => {
       {/* Global Shared Footer */}
       <Footer />
     </div>
+  );
+};
+
+const Blogs = () => {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--color-bg)' }} />}>
+      <BlogsContent />
+    </Suspense>
   );
 };
 

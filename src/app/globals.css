@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --color-bg: #F5F5F3; /* 70% whitespace */
+  --color-text: #111111; /* 25% black text */
+  --color-highlight: #F40E3F; /* 5% red highlights */
+  --color-border: rgba(17, 17, 17, 0.15);
+  
+  --font-heading: 'Oswald', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+[data-theme="red"] {
+  --color-bg: #F40E3F;
+  --color-highlight: #F5F5F3;
+  --color-text: #111111;
+  --color-border: rgba(17, 17, 17, 0.85); /* Solid dark black lines in Red mode */
+}
+
+[data-theme="dark"] {
+  --color-bg: #111111;
+  --color-text: #F5F5F3;
+  --color-highlight: #F40E3F;
+  --color-border: rgba(245, 245, 243, 0.25); /* Crisp, visible lines in Dark mode */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #000000;
+}
+
+body {
+  background-color: #000000;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography utilities */
+.heading-condensed {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  line-height: 0.9;
+  font-weight: 700;
+}
+
+.heading-hero {
+  font-size: clamp(4rem, 8vw, 10rem);
+}
+
+.heading-section {
+  font-size: clamp(2rem, 4vw, 4rem);
+}
+
+.heading-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4.5vw, 6rem);
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* Lenis smooth scroll recommended styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Fixed 15px Left & Right Black Sidebars */
+.site-frame-left {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15px;
+  background-color: #000000;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.site-frame-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  background-color: #000000;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+/* Outer black canvas with static scrolling 15px top/bottom margins */
+.site-canvas {
+  margin: 0 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #000000;
+  min-height: 100vh;
+}
+
+/* The actual page sheet */
+.site-sheet {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: calc(100vh - 30px);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .site-frame-left,
+  .site-frame-right {
+    width: 10px;
+  }
+  .site-canvas {
+    margin: 0 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .site-sheet {
+    min-height: calc(100vh - 20px);
+  }
+}

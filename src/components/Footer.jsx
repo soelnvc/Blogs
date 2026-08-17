@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowUp } from 'lucide-react';
 import styles from './Footer.module.css';
@@ -21,8 +23,8 @@ const WaveText = ({ text }) => {
   );
 };
 
-const RollingFooterLink = ({ to, text, onClick }) => (
-  <Link to={to} className={styles.rollingLink} onClick={onClick}>
+const RollingFooterLink = ({ href, text, onClick }) => (
+  <Link href={href} className={styles.rollingLink} onClick={onClick}>
     <WaveText text={text} />
   </Link>
 );
@@ -68,7 +70,7 @@ const Footer = () => {
       <div className={styles.footerGrid}>
         {/* Cell 1: Brand & Identity */}
         <div className={styles.cellBrand}>
-          <Link to="/" onClick={scrollToTop} className={styles.logoLink}>
+          <Link href="/" onClick={scrollToTop} className={styles.logoLink}>
             <span className={styles.logoText}>S<span className={styles.logoDot}>·</span>G</span>
           </Link>
           <div className={styles.brandTagline}>
@@ -81,10 +83,10 @@ const Footer = () => {
         <div className={styles.cellColumn}>
           <div className={styles.columnHeader}>[01] DIRECTORY</div>
           <div className={styles.linkStack}>
-            <RollingFooterLink to="/" text="HOME" onClick={scrollToTop} />
-            <RollingFooterLink to="/articles" text="ARTICLES" />
-            <RollingFooterLink to="/#topics" text="TOPICS" />
-            <RollingFooterLink to="/#about" text="ABOUT" />
+            <RollingFooterLink href="/" text="HOME" onClick={scrollToTop} />
+            <RollingFooterLink href="/articles" text="ARTICLES" />
+            <RollingFooterLink href="/#topics" text="TOPICS" />
+            <RollingFooterLink href="/#about" text="ABOUT" />
           </div>
         </div>
 
@@ -141,7 +143,7 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} SIDDHESH GOEL. ALL RIGHTS RESERVED.
         </div>
         <div className={styles.metaCell}>
-          BUILT WITH REACT &bull; FRAMER MOTION &bull; SWISS BRUTALISM
+          BUILT WITH NEXT.JS &bull; FRAMER MOTION &bull; SWISS BRUTALISM
         </div>
         <div className={styles.metaCell}>
           RELEASE V2.5.0

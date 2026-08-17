@@ -1,5 +1,8 @@
+'use client';
+
 import { useRef, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, useSpring, useVelocity } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import InteractiveParticleText from '../components/InteractiveParticleText';
@@ -86,7 +89,7 @@ const ParallaxArticleCard = ({ article, index, scrollYProgress, onClick }) => {
 };
 
 const Home = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const latestArticles = [
     { id: '01', category: 'TECHNOLOGY', title: 'How I Built My First AI Agent', date: 'AUG 15, 2026', readTime: '08 MIN READ' },
@@ -226,7 +229,7 @@ const Home = () => {
                 <ArrowUpRight size={20} className={styles.heroCtaArrow} />
                 <ArrowUpRight size={20} className={styles.heroCtaArrowClone} />
               </div>
-              <Link to="/articles" className={styles.exploreLink}>
+              <Link href="/articles" className={styles.exploreLink}>
                 EXPLORE ARTICLES
               </Link>
             </div>
@@ -300,7 +303,7 @@ const Home = () => {
             <p className="text-mono" style={{ maxWidth: '400px', marginBottom: '3rem' }}>
               A practical story about APIs, hallucinations, failed experiments, and what actually worked.
             </p>
-            <Link to="/article/1" className={styles.readArticleLink}>
+            <Link href="/article/1" className={styles.readArticleLink}>
               READ ARTICLE &rarr;
             </Link>
           </motion.div>
@@ -314,7 +317,7 @@ const Home = () => {
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUpVariant}
         >
           <span className="text-mono" style={{ letterSpacing: '0.1em' }}>LATEST</span>
-          <Link to="/articles" className={styles.viewAllLink}>VIEW ALL ARTICLES &rarr;</Link>
+          <Link href="/articles" className={styles.viewAllLink}>VIEW ALL ARTICLES &rarr;</Link>
         </motion.div>
         <div className={styles.latestList}>
           {latestArticles.map((article, index) => (
@@ -324,7 +327,7 @@ const Home = () => {
               index={index}
               total={latestArticles.length}
               scrollYProgress={latestScrollProgress}
-              onClick={() => navigate('/article/1')}
+              onClick={() => router.push('/article/1')}
             />
           ))}
         </div>
@@ -336,7 +339,7 @@ const Home = () => {
           <div className={styles.topicsHeaderWrapper}>
             <div className={styles.latestHeader} style={{ marginBottom: 0 }}>
               <span className="text-mono" style={{ letterSpacing: '0.1em' }}>EXPLORE BY TOPIC</span>
-              <Link to="/topics" className={styles.viewAllLink}>VIEW ALL TOPICS &rarr;</Link>
+              <Link href="/topics" className={styles.viewAllLink}>VIEW ALL TOPICS &rarr;</Link>
             </div>
             <div className={styles.topicsProgressBarWrapper}>
               <motion.div 
@@ -368,7 +371,7 @@ const Home = () => {
                 <motion.div 
                   key={topic.id} 
                   className={styles.topicCard} 
-                  onClick={() => navigate('/topics')}
+                  onClick={() => router.push('/topics')}
                   whileHover={{ scale: 1.025, y: -6 }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 >

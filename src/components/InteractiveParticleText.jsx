@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef, useEffect, useState } from 'react';
 
 const InteractiveParticleText = ({
@@ -23,9 +25,10 @@ const InteractiveParticleText = ({
   const animationRef = useRef(null);
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: -9999, y: -9999, isActive: false, clickPulse: false });
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [windowWidth, setWindowWidth] = useState(1024);
 
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -193,16 +196,19 @@ const InteractiveParticleText = ({
       }}
       onTouchEnd={() => mouseRef.current.isActive = false}
     >
-      <div style={{ 
-        visibility: "hidden", 
-        pointerEvents: "none", 
-        userSelect: "none", 
-        fontFamily, 
-        fontWeight, 
-        fontSize: `${effectiveFontSize}px`, 
-        lineHeight: currentLineHeight,
-        whiteSpace: 'pre-wrap'
-      }}>
+      <div 
+        suppressHydrationWarning
+        style={{ 
+          visibility: "hidden", 
+          pointerEvents: "none", 
+          userSelect: "none", 
+          fontFamily, 
+          fontWeight, 
+          fontSize: `${effectiveFontSize}px`, 
+          lineHeight: currentLineHeight,
+          whiteSpace: 'pre-wrap'
+        }}
+      >
         {Array.isArray(text) ? text.join('\n') : text}
       </div>
       <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", display: "block", pointerEvents: "none" }} />

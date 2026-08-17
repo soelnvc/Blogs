@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -77,7 +80,7 @@ const Article = () => {
         {/* Minimal Skeleton Header Bar */}
         <div className={styles.container}>
           <div className={styles.skeletonHeaderNav}>
-            <Link to="/articles" className={styles.backLink}>
+            <Link href="/articles" className={styles.backLink}>
               <ArrowLeft size={16} />
               <span>ARCHIVE / ALL ARTICLES</span>
             </Link>

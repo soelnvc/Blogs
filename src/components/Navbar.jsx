@@ -1,5 +1,8 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import styles from './Navbar.module.css';
@@ -57,8 +60,8 @@ const WaveText = ({ text }) => {
   );
 };
 
-const RollingLink = ({ to, text, onClick }) => (
-  <Link to={to} className={styles.navLink} onClick={onClick}>
+const RollingLink = ({ href, text, onClick }) => (
+  <Link href={href} className={styles.navLink} onClick={onClick}>
     <WaveText text={text} />
   </Link>
 );
@@ -83,15 +86,9 @@ const CelestialToggleIcon = ({ theme }) => {
           transition={{ type: "spring", stiffness: 450, damping: 24 }}
           className={styles.themeIconSvg}
         >
-          <circle cx="12" cy="12" r="4.5" fill="currentColor" />
-          <line x1="12" y1="2" x2="12" y2="4.5" />
-          <line x1="12" y1="19.5" x2="12" y2="22" />
-          <line x1="2" y1="12" x2="4.5" y2="12" />
-          <line x1="19.5" y1="12" x2="22" y2="12" />
-          <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
-          <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
-          <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
-          <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
+          {/* Detailed Modern Sun */}
+          <circle cx="12" cy="12" r="4.5" fill="none" />
+          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" />
         </motion.svg>
       )}
 
@@ -102,16 +99,20 @@ const CelestialToggleIcon = ({ theme }) => {
           height="24"
           viewBox="0 0 24 24"
           fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           initial={{ rotate: -120, scale: 0.3, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
           exit={{ rotate: 120, scale: 0.3, opacity: 0 }}
           transition={{ type: "spring", stiffness: 450, damping: 24 }}
           className={styles.themeIconSvg}
         >
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 1.5" />
-          <circle cx="12" cy="12" r="7" fill="currentColor" />
-          <path d="M12 3 A9 9 0 0 1 21 12 A7 7 0 0 0 12 5 Z" fill="var(--color-bg)" />
-          <circle cx="18" cy="6" r="1.5" fill="currentColor" />
+          {/* Solar Eclipse Ring Aura */}
+          <circle cx="12" cy="12" r="8" strokeDasharray="3 2" />
+          <circle cx="12" cy="12" r="5" fill="currentColor" />
+          <path d="M12 1.5v1.5M12 21v1.5M1.5 12h1.5M21 12h1.5" />
         </motion.svg>
       )}
 
@@ -132,8 +133,9 @@ const CelestialToggleIcon = ({ theme }) => {
           transition={{ type: "spring", stiffness: 450, damping: 24 }}
           className={styles.themeIconSvg}
         >
-          <path d="M12 3 A9 9 0 1 0 21 12 A7 7 0 0 1 12 3 Z" fill="currentColor" />
-          <path d="M17.5 5 L18 6.5 L19.5 7 L18 7.5 L17.5 9 L17 7.5 L15.5 7 L17 6.5 Z" fill="currentColor" stroke="none" />
+          {/* Crisp Detailed Crescent Moon with Orbit Spark */}
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          <circle cx="18" cy="6" r="1" fill="currentColor" stroke="none" />
         </motion.svg>
       )}
     </AnimatePresence>
@@ -141,8 +143,8 @@ const CelestialToggleIcon = ({ theme }) => {
 };
 
 const Navbar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
 
   // Slow 3D Parallax Scroll: Navbar moves slower than page content
@@ -173,9 +175,9 @@ const Navbar = () => {
   const handleSearchSubmit = (e) => {
     if (e) e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/articles?q=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/articles?q=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      navigate('/articles');
+      router.push('/articles');
     }
   };
 
@@ -196,7 +198,7 @@ const Navbar = () => {
   }, [isSearchOpen]);
 
   const handleNavClick = (e, targetHash) => {
-    if (location.pathname === '/') {
+    if (pathname === '/') {
       e.preventDefault();
       // Keep URL clean so page reloads always open at the Hero top
       window.history.replaceState(null, '', '/');
@@ -210,9 +212,9 @@ const Navbar = () => {
       }
     } else {
       if (targetHash === '#top' || targetHash === '#hero') {
-        navigate('/');
+        router.push('/');
       } else {
-        navigate(`/${targetHash}`);
+        router.push(`/${targetHash}`);
       }
     }
   };
@@ -223,7 +225,7 @@ const Navbar = () => {
         {/* Cell 1: Monogram / Logo */}
         <div className={styles.cellLogo}>
           <Link 
-            to="/" 
+            href="/" 
             onClick={(e) => handleNavClick(e, '#top')}
             className={styles.logoLink}
           >
@@ -241,10 +243,10 @@ const Navbar = () => {
 
         {/* Cell 3: Main Navigation */}
         <div className={styles.cellNav}>
-          <RollingLink to="/" text="HOME" onClick={(e) => handleNavClick(e, '#top')} />
-          <RollingLink to="/articles" text="ARTICLES" />
-          <RollingLink to="/#topics" text="TOPICS" onClick={(e) => handleNavClick(e, '#topics')} />
-          <RollingLink to="/#about" text="ABOUT" onClick={(e) => handleNavClick(e, '#about')} />
+          <RollingLink href="/" text="HOME" onClick={(e) => handleNavClick(e, '#top')} />
+          <RollingLink href="/articles" text="ARTICLES" />
+          <RollingLink href="/#topics" text="TOPICS" onClick={(e) => handleNavClick(e, '#topics')} />
+          <RollingLink href="/#about" text="ABOUT" onClick={(e) => handleNavClick(e, '#about')} />
         </div>
 
         {/* Cell 4: Stacked Icons (GitHub & LinkedIn) */}
@@ -270,94 +272,32 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Cell 6: Editorial Serif Block with Search Drawer */}
-        <div className={styles.cellRightSection}>
-          <div className={styles.cellEditorial}>
-            <div className={styles.editorialTop}>
-              <span>Writing &amp; building systems globally.</span>
-            </div>
-            <Link to="/articles" className={styles.editorialBottom}>
-              <span>Available for collaborations &rarr; <strong className={styles.editorialAction}>Read blog</strong></span>
-            </Link>
+        {/* Cell 6: Search & Collab Capsule */}
+        <div className={styles.cellCollab}>
+          <div className={styles.searchWrapper}>
+            <form onSubmit={handleSearchSubmit} className={`${styles.searchForm} ${isSearchOpen ? styles.searchFormOpen : ''}`}>
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="SEARCH ARCHIVE..."
+                className={styles.searchInput}
+              />
+            </form>
+            <button 
+              type="button" 
+              className={styles.searchIconBtn} 
+              onClick={handleToggleSearch}
+              aria-label={isSearchOpen ? "Submit search or close" : "Open search"}
+            >
+              {isSearchOpen && !searchQuery.trim() ? <X size={13} /> : <Search size={13} />}
+            </button>
           </div>
-
-          <AnimatePresence>
-            {isSearchOpen && (
-              <motion.div
-                className={styles.searchDrawer}
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "100%", opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 420, damping: 30 }}
-              >
-                <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-                  <Search size={16} className={styles.drawerSearchIcon} />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="TYPE TO SEARCH ARTICLES..."
-                    className={styles.searchInput}
-                  />
-                  <div className={styles.drawerActions}>
-                    {searchQuery && (
-                      <button 
-                        type="button" 
-                        onClick={() => setSearchQuery('')}
-                        className={styles.clearBtn}
-                        title="Clear"
-                      >
-                        CLEAR
-                      </button>
-                    )}
-                    <span 
-                      className={styles.escBadge} 
-                      onClick={() => setIsSearchOpen(false)}
-                      title="Press ESC to close"
-                    >
-                      ESC
-                    </span>
-                  </div>
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Cell 7: Search Button */}
-        <div className={styles.cellSearch}>
-          <button 
-            type="button"
-            onClick={handleToggleSearch}
-            className={`${styles.searchBtn} ${isSearchOpen ? styles.searchBtnActive : ''}`} 
-            title={isSearchOpen ? "Close Search" : "Open Search Drawer"}
-            aria-label={isSearchOpen ? "Close Search" : "Open Search"}
-          >
-            <AnimatePresence mode="wait">
-              {isSearchOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, scale: 0.5 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  exit={{ rotate: 90, scale: 0.5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={18} className={styles.searchIcon} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="search"
-                  initial={{ rotate: 90, scale: 0.5 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  exit={{ rotate: 90, scale: 0.5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Search size={18} className={styles.searchIcon} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
+          <span className={styles.dividerPipe}>|</span>
+          <span className={styles.collabText}>
+            Available for collaborations &rarr; <Link href="/articles" className={styles.collabLink}>Read blog</Link>
+          </span>
         </div>
       </nav>
     </motion.header>
