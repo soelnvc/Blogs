@@ -107,6 +107,8 @@
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   padding-right: 2rem;
+  color: var(--color-highlight); /* Red in Light mode (#F40E3F), White in Red mode (#F5F5F3) */
+  transition: color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scrollIndicator::after {
@@ -116,7 +118,16 @@
   top: 50%;
   width: 30px;
   height: 1px;
-  background-color: var(--color-text);
+  background-color: var(--color-highlight);
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:global([data-theme="dark"]) .scrollIndicator {
+  color: #F5F5F3; /* Visible white in Dark mode */
+}
+
+:global([data-theme="dark"]) .scrollIndicator::after {
+  background-color: #F5F5F3;
 }
 
 .heroRight {
@@ -209,12 +220,12 @@
 }
 
 .featuredImageWrapper:hover img {
-  filter: grayscale(0%) contrast(105%) brightness(100%) saturate(110%);
+  filter: grayscale(100%) contrast(135%) brightness(95%);
   transform: scale(1.03);
 }
 
 .featuredImageWrapper:hover canvas {
-  filter: grayscale(0%) contrast(105%) brightness(100%) saturate(110%);
+  filter: grayscale(100%) contrast(135%) brightness(95%);
 }
 
 .featuredImageWrapper::after {
