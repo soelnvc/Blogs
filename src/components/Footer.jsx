@@ -95,10 +95,10 @@ const Footer = () => {
         <div className={styles.cellColumn}>
           <div className={styles.columnHeader}>[02] ELSEWHERE</div>
           <div className={styles.linkStack}>
-            <RollingExternalLink href="https://github.com" text="GITHUB" />
-            <RollingExternalLink href="https://linkedin.com" text="LINKEDIN" />
-            <RollingExternalLink href="https://x.com" text="X / TWITTER" />
-            <RollingExternalLink href="https://instagram.com" text="INSTAGRAM" />
+            <RollingExternalLink href="https://github.com/soelnvc" text="GITHUB" />
+            <RollingExternalLink href="https://www.linkedin.com/in/siddheshgoel/" text="LINKEDIN" />
+            <RollingExternalLink href="https://www.instagram.com/su.sid.al?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" text="INSTAGRAM" />
+            <RollingExternalLink href="mailto:soelnvc@gmail.com" text="EMAIL" />
           </div>
         </div>
 

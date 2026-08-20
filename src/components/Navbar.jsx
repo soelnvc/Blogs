@@ -257,10 +257,10 @@ const Navbar = () => {
 
         {/* Cell 4: Stacked Icons (GitHub & LinkedIn) */}
         <div className={styles.cellIconStack}>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className={styles.iconBox} title="GitHub Profile">
+          <a href="https://github.com/soelnvc" target="_blank" rel="noopener noreferrer" className={styles.iconBox} title="GitHub Profile">
             <GithubIcon size={14} className={styles.icon} />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className={styles.iconBox} title="LinkedIn Profile">
+          <a href="https://www.linkedin.com/in/siddheshgoel/" target="_blank" rel="noopener noreferrer" className={styles.iconBox} title="LinkedIn Profile">
             <LinkedinIcon size={14} className={styles.icon} />
           </a>
         </div>
