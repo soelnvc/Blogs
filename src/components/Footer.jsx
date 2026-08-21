@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowUp } from 'lucide-react';
+import { ArrowUpRight, ArrowUp, Heart } from 'lucide-react';
 import styles from './Footer.module.css';
 import SGEmblem from './SGEmblem';
 
@@ -38,25 +37,6 @@ const RollingExternalLink = ({ href, text }) => (
 );
 
 const Footer = () => {
-  const [timeString, setTimeString] = useState('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeString(
-        now.toLocaleTimeString('en-US', {
-          hour12: false,
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit'
-        }) + ' UTC'
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   const scrollToTop = () => {
     if (window.__lenis) {
       window.__lenis.scrollTo(0, { duration: 1.6 });
@@ -75,8 +55,12 @@ const Footer = () => {
             <SGEmblem size={52} variant="theme" />
           </Link>
           <div className={styles.brandTagline}>
-            <span className={styles.brandTitle}>CURATED ARCHIVE &amp; SYSTEM ENGINEERING</span>
-            <span className={styles.brandSubtitle}>Writing at the intersection of systems, algorithms, and design aesthetics.</span>
+            <p className={styles.brandQuoteLead}>
+              &ldquo;You are made of stardust—the remnants of stars that died billions of years ago.
+            </p>
+            <p className={styles.brandQuoteBody}>
+              You are not ordinary, so <strong>do not dream ordinary dreams.</strong> Work your ass off like it’s your last day—<strong>you get one shot. Be crazy. Be stupid. Be curious. Leave something behind for humanity.&rdquo;</strong>
+            </p>
           </div>
         </div>
 
@@ -107,18 +91,20 @@ const Footer = () => {
           <div className={styles.columnHeader}>[03] TELEMETRY</div>
           <div className={styles.telemetryStack}>
             <div className={styles.telemetryItem}>
-              <span className={styles.telemetryLabel}>LOCAL TIME</span>
-              <span className={styles.telemetryValue}>{timeString || '12:00:00 UTC'}</span>
+              <span className={styles.telemetryLabel}>CURRENTLY</span>
+              <span className={styles.telemetryValue}>BUILDING THINGS</span>
             </div>
             <div className={styles.telemetryItem}>
-              <span className={styles.telemetryLabel}>COORDINATES</span>
-              <span className={styles.telemetryValue}>28.6139° N, 77.2090° E</span>
+              <span className={styles.telemetryLabel}>LAST UPDATED</span>
+              <span className={styles.telemetryValue}>20.08.2026</span>
             </div>
             <div className={styles.telemetryItem}>
-              <span className={styles.telemetryLabel}>SYSTEM</span>
-              <span className={styles.telemetryStatus}>
-                <span className={styles.statusDot} /> ALL SYSTEMS OPERATIONAL
-              </span>
+              <span className={styles.telemetryLabel}>LOCATION</span>
+              <span className={styles.telemetryValue}>BENGALURU, INDIA</span>
+            </div>
+            <div className={styles.telemetryItem}>
+              <span className={styles.telemetryLabel}>STATUS</span>
+              <span className={styles.telemetryValue}>STILL FIGURING IT OUT</span>
             </div>
           </div>
         </div>
@@ -144,7 +130,8 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} SIDDHESH GOEL. ALL RIGHTS RESERVED.
         </div>
         <div className={styles.metaCell}>
-          BUILT WITH NEXT.JS &bull; FRAMER MOTION &bull; SWISS BRUTALISM
+          <span>BUILT WITH LOVE FOR EVERYONE</span>
+          <Heart size={13} className={styles.heartIcon} />
         </div>
         <div className={styles.metaCell}>
           RELEASE V2.5.0

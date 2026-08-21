@@ -56,25 +56,50 @@
 .brandTagline {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.85rem;
+  max-width: 360px;
 }
 
-.brandTitle {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text);
-}
-
-.brandSubtitle {
+.brandQuoteLead {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
   color: var(--color-text);
-  opacity: 0.85;
-  max-width: 320px;
+  opacity: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.brandQuoteBody {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  opacity: 0.88;
+}
+
+.brandQuoteBody strong {
+  font-weight: 700;
+  font-style: normal;
+  color: var(--color-text);
+}
+
+.heartIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-highlight);
+  fill: currentColor;
+  margin-left: 6px;
+  transform: translateY(-0.5px);
+  transition: color 0.4s ease;
+}
+
+:global([data-theme="red"]) .heartIcon {
+  color: #111111 !important;
+  fill: #111111 !important;
 }
 
 /* Columns: Directory & Elsewhere */
