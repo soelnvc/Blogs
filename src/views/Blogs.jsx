@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
 import WavesBackground from '../components/WavesBackground';
@@ -135,6 +135,9 @@ const CollapsibleYear = ({ yearData }) => {
 };
 
 const BlogsContent = ({ articles = [] }) => {
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 1000], [0, 150]); // Hero is pushed down 150px, meaning it moves up 850px (faster than Navbar's 650px, slower than Main's 1000px)
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchQuery = searchParams.get('q') || '';
@@ -276,7 +279,8 @@ const BlogsContent = ({ articles = [] }) => {
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainContent}>
-        <WavesBackground strokeColor={waveStroke} spacing={8}>
+        <motion.div style={{ y: heroY, position: 'relative', zIndex: 1 }}>
+          <WavesBackground strokeColor={waveStroke} spacing={8}>
           <div className={styles.heroSectionWrapper}>
             <div className={styles.container} style={{ paddingBottom: '0', minHeight: 'auto' }}>
               {/* 01 - Header Section */}
@@ -317,8 +321,10 @@ const BlogsContent = ({ articles = [] }) => {
             </div>
           </div>
         </WavesBackground>
+        </motion.div>
 
-        <div ref={resultsRef} className={styles.container} style={{ paddingTop: '2.5rem', paddingBottom: '0', minHeight: 'auto' }}>
+        <div className={styles.mainContentForeground}>
+          <div ref={resultsRef} className={styles.container} style={{ paddingTop: '2.5rem', paddingBottom: '0', minHeight: 'auto' }}>
           {/* 02 - Filters */}
           <motion.div 
             className={styles.filtersWrapper}
@@ -445,6 +451,7 @@ const BlogsContent = ({ articles = [] }) => {
               </button>
             </motion.div>
           )}
+        </div>
         </div>
       </main>
 
