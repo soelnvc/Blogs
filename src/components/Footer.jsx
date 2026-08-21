@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowUp, Heart } from 'lucide-react';
 import styles from './Footer.module.css';
 import SGEmblem from './SGEmblem';
+import pkg from '../../package.json';
 
 const WaveText = ({ text }) => {
   return (
@@ -134,7 +135,7 @@ const Footer = () => {
           <Heart size={13} className={styles.heartIcon} />
         </div>
         <div className={styles.metaCell}>
-          RELEASE V2.5.0
+          RELEASE V{pkg.version}
         </div>
       </div>
     </footer>
