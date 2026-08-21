@@ -8,7 +8,6 @@ import { ArrowRight, Plus, Minus } from 'lucide-react';
 import styles from './Blogs.module.css';
 import WavesBackground from '../components/WavesBackground';
 import Footer from '../components/Footer';
-import LiquidHover from '../components/LiquidHover';
 import { useTheme } from '../context/ThemeContext';
 
 const fadeUpVariant = {
@@ -43,9 +42,9 @@ const ArticleRow = ({ article }) => {
       <div className={styles.articleMainContent}>
         <span className={`${styles.articleCategory} text-mono`}>{article.category}</span>
         <Link href={article.link} className={styles.articleTitleLink}>
-          <h4 className="heading-medium" style={{ fontSize: '1.5rem', marginBottom: '0.75rem', marginTop: '0.5rem' }}>{article.title}</h4>
+          <h4 className={styles.articleTitle}>{article.title}</h4>
         </Link>
-        <p className={`${styles.articleSubtitle} text-mono`} style={{ textTransform: 'none' }}>{article.subtitle}</p>
+        <p className={styles.articleSubtitle}>{article.subtitle}</p>
       </div>
 
       <div className={styles.articleMetaWrapper}>
@@ -285,39 +284,35 @@ const BlogsContent = ({ articles = [] }) => {
                 <div className={styles.journalHeaderLeft}>
                   <motion.span 
                     className="text-mono"
-                    style={{ fontSize: '0.75rem', letterSpacing: '0.15em', marginBottom: '2rem', display: 'block' }}
+                    style={{ fontSize: '0.75rem', letterSpacing: '0.15em', marginBottom: '2rem', display: 'block', textAlign: 'center' }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
                     JOURNAL
                   </motion.span>
-                  <motion.h1 
-                    className="heading-medium"
-                    style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', lineHeight: '1.1', maxWidth: '800px' }}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                  >
-                    An archive of thoughts,<br/>
-                    experiments, observations,<br/>
-                    and things worth remembering.
-                  </motion.h1>
-                </div>
-                <motion.div 
-                  className={styles.journalHeaderRight}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                >
-                  <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                    <LiquidHover 
-                      image="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80" 
-                      cursorSize={0.6} 
-                      cursorPower={0.5} 
-                      distortionPower={0.5} 
-                    />
+                  <div className={styles.heroTitleWrapper}>
+                    <svg className={styles.sparkleLeft} viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+                    </svg>
+                    <svg className={styles.sparkleRight} viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+                    </svg>
+
+                    <motion.h1 
+                      className={styles.journalHeroTitle}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.1 }}
+                    >
+                      an aRchive of thOughts,<br/>
+                      expeRiments, obseRvations,<br/>
+                      and things <span className={styles.eyeCutout} title="Oculus Vision">
+                        <img src="/eye_closed.png" alt="Eye Closed" className={styles.eyeClosed} />
+                        <img src="/eye_open.png" alt="Eye Open" className={styles.eyeOpen} />
+                      </span> WoRth remembeRing.
+                    </motion.h1>
                   </div>
-                </motion.div>
+                </div>
               </header>
             </div>
           </div>

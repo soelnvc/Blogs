@@ -376,7 +376,7 @@ const Home = ({ latestArticles = [], allArticles = [] }) => {
                     <span className="heading-condensed" style={{ fontSize: '3.5rem' }}>{topic.id}</span>
                   </div>
                   <div className={styles.topicInfo}>
-                    <h4 className="text-mono" style={{ fontWeight: 'bold', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>{topic.title}</h4>
+                    <h4 className={styles.topicTitle}>{topic.title}</h4>
                     <span className="text-mono" style={{ fontSize: '0.75rem', opacity: 0.6 }}>{topic.count}</span>
                   </div>
                   <div className={styles.topicImageWrapper}>
